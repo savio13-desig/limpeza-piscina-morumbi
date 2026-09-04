@@ -16,7 +16,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..700;1,9..144,500..700&family=Instrument+Sans:wght@400;500;600&display=swap">
 
 <style>
   /*
@@ -37,7 +37,9 @@
     --line-dark:#333B34;
     --water:#1D6A6E;
     --water-2:#155054;
-    --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+    /* Fraunces com SOFT e WONK em 0: serifada com presença, sem o ar decorativo.
+       O eixo óptico (opsz) faz o desenho encorpar nos tamanhos grandes. */
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
     --sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
   }
 
@@ -56,7 +58,11 @@
   ::selection{background:var(--water);color:#fff}
   :focus-visible{outline:2px solid var(--water);outline-offset:3px}
 
-  h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-.015em;text-wrap:balance}
+  h1,h2,h3{
+    font-family:var(--serif);font-weight:600;line-height:1.05;letter-spacing:-.012em;
+    text-wrap:balance;font-optical-sizing:auto;
+    font-variation-settings:"SOFT" 0,"WONK" 0
+  }
   p{color:var(--ink-2)}
   strong{font-weight:600;color:var(--ink)}
 
@@ -68,7 +74,7 @@
   .bar{position:fixed;inset:0 0 auto 0;z-index:60;border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
   .bar.on{background:rgba(17,21,18,.94);backdrop-filter:blur(8px);border-color:var(--line-dark)}
   .bar .u{display:flex;align-items:baseline;justify-content:space-between;gap:2rem;height:74px}
-  .mark{font-family:var(--serif);font-size:1.5rem;letter-spacing:.06em;color:var(--paper)}
+  .mark{font-family:var(--serif);font-weight:600;font-size:1.5rem;letter-spacing:.06em;color:var(--paper)}
   .mark span{font-family:var(--sans);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(251,251,249,.6);margin-left:.6rem}
   .bar nav{display:flex;gap:2rem;align-items:baseline}
   .bar nav a{font-size:.85rem;color:rgba(251,251,249,.72)}
@@ -87,14 +93,14 @@
     -webkit-mask-image:linear-gradient(to right,transparent,#000 48%);
     mask-image:linear-gradient(to right,transparent,#000 48%)
   }
-  .hero h1{font-size:clamp(3rem,10.5vw,7.5rem);color:var(--paper);max-width:14ch}
+  .hero h1{font-size:clamp(2.7rem,8.8vw,6.2rem);color:var(--paper);max-width:13ch}
   .hero h1 em{color:#8FBFBF;display:block;font-style:italic}
   .hero .sub{margin-top:2rem;font-size:1.05rem;color:rgba(251,251,249,.7);max-width:38ch}
   .hero .acts{display:flex;flex-wrap:wrap;gap:1.6rem;align-items:center;margin-top:2.8rem}
   .waterline{margin-top:clamp(4rem,9vh,6rem);border-top:1px solid var(--line-dark);display:grid;grid-template-columns:repeat(3,1fr)}
   .waterline div{padding:1.5rem 1.5rem 1.7rem 0;border-right:1px solid var(--line-dark)}
   .waterline div:last-child{border-right:0}
-  .waterline .n{font-family:var(--serif);font-size:2rem;color:var(--paper);display:block;line-height:1}
+  .waterline .n{font-family:var(--serif);font-weight:600;font-size:2rem;color:var(--paper);display:block;line-height:1}
   .waterline .l{font-size:.82rem;color:rgba(251,251,249,.55);margin-top:.35rem;display:block}
   @media (max-width:720px){
     .waterline{grid-template-columns:1fr}
@@ -169,7 +175,7 @@
     border-bottom:1px solid var(--line);grid-template-columns:auto minmax(0,1fr)
   }
   .steps .row::before{
-    content:"0" counter(s);font-family:var(--serif);font-size:1.35rem;color:var(--ink-3);
+    content:"0" counter(s);font-family:var(--serif);font-weight:500;font-size:1.35rem;color:var(--ink-3);
     grid-column:1;grid-row:1
   }
   .steps h3{font-size:1.35rem;grid-column:2}
@@ -184,7 +190,7 @@
   .sheet th,.sheet td{padding:1.15rem 1.2rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
   .sheet thead th{border-bottom:1px solid var(--ink)}
   .sheet thead th:first-child{width:34%}
-  .sheet .pn{font-family:var(--serif);font-size:1.45rem;display:block;line-height:1.1}
+  .sheet .pn{font-family:var(--serif);font-weight:600;font-size:1.45rem;display:block;line-height:1.1}
   .sheet .pp{font-size:.85rem;color:var(--ink-3);display:block;margin-top:.3rem;font-variant-numeric:tabular-nums}
   .sheet td.n{color:var(--ink-3)}
   .sheet tbody th{font-weight:400;color:var(--ink-2)}
@@ -196,14 +202,14 @@
   /* garantia */
   .vow{background:var(--water-2);color:var(--paper)}
   .vow .u{padding-block:clamp(4rem,9vw,6.5rem)}
-  .vow p.big{font-family:var(--serif);font-size:clamp(1.9rem,4.6vw,3.4rem);color:var(--paper);line-height:1.1;max-width:20ch}
+  .vow p.big{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4.6vw,3.4rem);color:var(--paper);line-height:1.1;max-width:20ch}
   .vow p.big em{color:#A9D6D4;font-style:italic}
   .vow p.small{color:rgba(251,251,249,.72);max-width:44ch;margin-top:1.6rem;font-size:.98rem}
 
   /* perguntas */
   .faq{border-top:1px solid var(--line)}
   .faq details{border-bottom:1px solid var(--line)}
-  .faq summary{list-style:none;cursor:pointer;padding:1.5rem 0;font-family:var(--serif);font-size:1.3rem;display:flex;justify-content:space-between;gap:2rem;align-items:baseline}
+  .faq summary{list-style:none;cursor:pointer;padding:1.5rem 0;font-weight:500;font-family:var(--serif);font-size:1.3rem;display:flex;justify-content:space-between;gap:2rem;align-items:baseline}
   .faq summary::-webkit-details-marker{display:none}
   .faq summary::after{content:"→";color:var(--ink-3);font-size:1rem;transition:transform .25s}
   .faq details[open] summary::after{transform:rotate(90deg)}
