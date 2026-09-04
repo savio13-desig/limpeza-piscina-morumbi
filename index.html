@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111512">
+<meta name="description" content="Limpeza, tratamento e manutencao de piscinas residenciais no Morumbi e regiao, em Sao Paulo. Plano mensal ou visita avulsa. Orcamento gratuito pelo WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Nivel Piscinas - Limpeza e manutencao no Morumbi">
+<meta property="og:description" content="Agua limpa nao e sorte. E rotina. Orcamento gratuito pelo WhatsApp.">
+<meta property="og:image" content="img/piscina-marmore-01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111512'/%3E%3Cpath d='M4 20c4-3 8 3 12 0s8-3 12 0' stroke='%238FBFBF' stroke-width='2.4' fill='none'/%3E%3C/svg%3E">
+<title>Limpeza de Piscina no Morumbi | Nível Piscinas</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+
+<style>
+  /*
+    Direção: as casas que ele atende têm pedra, vidro e paisagismo desenhado.
+    A página assume esse mundo — pedra escura, calcário claro, água profunda.
+    Estrutura em faixas horizontais, arestas duras, sem cartão e sem gradiente.
+    Look único e deliberado: tudo pintado explicitamente.
+  */
+  :root{
+    --stone-900:#111512;
+    --stone-800:#1C221D;
+    --paper:#FBFBF9;
+    --limestone:#E9ECE6;
+    --ink:#111512;
+    --ink-2:#4C554E;
+    --ink-3:#7E877F;
+    --line:#CFD6CC;
+    --line-dark:#333B34;
+    --water:#1D6A6E;
+    --water-2:#155054;
+    --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+    --sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+  input,select,textarea{font:inherit;color:inherit}
+
+  body{
+    background:var(--paper);color:var(--ink);font-family:var(--sans);
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased
+  }
+  ::selection{background:var(--water);color:#fff}
+  :focus-visible{outline:2px solid var(--water);outline-offset:3px}
+
+  h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-.015em;text-wrap:balance}
+  p{color:var(--ink-2)}
+  strong{font-weight:600;color:var(--ink)}
+
+  .u{max-width:1200px;margin-inline:auto;padding-inline:clamp(20px,5vw,64px)}
+  .lede{max-width:34ch}
+  .tag{font-size:.7rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+
+  /* topo */
+  .bar{position:fixed;inset:0 0 auto 0;z-index:60;border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
+  .bar.on{background:rgba(17,21,18,.94);backdrop-filter:blur(8px);border-color:var(--line-dark)}
+  .bar .u{display:flex;align-items:baseline;justify-content:space-between;gap:2rem;height:74px}
+  .mark{font-family:var(--serif);font-size:1.5rem;letter-spacing:.06em;color:var(--paper)}
+  .mark span{font-family:var(--sans);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(251,251,249,.6);margin-left:.6rem}
+  .bar nav{display:flex;gap:2rem;align-items:baseline}
+  .bar nav a{font-size:.85rem;color:rgba(251,251,249,.72)}
+  .bar nav a:hover{color:var(--paper)}
+  @media (max-width:900px){ .bar nav{display:none} }
+
+  /* hero */
+  .hero{background:var(--stone-900);color:var(--paper)}
+  .hero-top{position:relative;overflow:hidden;padding-block:clamp(9rem,18vh,12rem) 0}
+  .hero-top .u{position:relative;z-index:2}
+  /* cáusticas: a luz que refrata no fundo da piscina, gerada em canvas */
+  .caustics{
+    position:absolute;top:0;right:0;z-index:0;pointer-events:none;
+    width:min(78%,1000px);height:100%;
+    opacity:.62;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 48%);
+    mask-image:linear-gradient(to right,transparent,#000 48%)
+  }
+  .hero h1{font-size:clamp(3rem,10.5vw,7.5rem);color:var(--paper);max-width:14ch}
+  .hero h1 em{color:#8FBFBF;display:block;font-style:italic}
+  .hero .sub{margin-top:2rem;font-size:1.05rem;color:rgba(251,251,249,.7);max-width:38ch}
+  .hero .acts{display:flex;flex-wrap:wrap;gap:1.6rem;align-items:center;margin-top:2.8rem}
+  .waterline{margin-top:clamp(4rem,9vh,6rem);border-top:1px solid var(--line-dark);display:grid;grid-template-columns:repeat(3,1fr)}
+  .waterline div{padding:1.5rem 1.5rem 1.7rem 0;border-right:1px solid var(--line-dark)}
+  .waterline div:last-child{border-right:0}
+  .waterline .n{font-family:var(--serif);font-size:2rem;color:var(--paper);display:block;line-height:1}
+  .waterline .l{font-size:.82rem;color:rgba(251,251,249,.55);margin-top:.35rem;display:block}
+  @media (max-width:720px){
+    .waterline{grid-template-columns:1fr}
+    .waterline div{border-right:0;border-bottom:1px solid var(--line-dark);padding-right:0}
+    .waterline div:last-child{border-bottom:0}
+  }
+  .hero-plate{position:relative;z-index:2;margin-top:clamp(3rem,7vh,5rem);height:clamp(280px,52vh,560px);overflow:hidden}
+  .hero-plate img{position:absolute;top:-10%;left:0;width:100%;height:120%;object-fit:cover;object-position:center 55%;will-change:transform}
+
+  /* botões */
+  .cta{display:inline-flex;align-items:center;gap:.7rem;background:var(--paper);color:var(--stone-900);padding:1rem 1.7rem;border-radius:2px;font-size:.92rem;font-weight:600;transition:background .2s}
+  .cta:hover{background:#8FBFBF}
+  .cta.dark{background:var(--stone-900);color:var(--paper)}
+  .cta.dark:hover{background:var(--water)}
+  .link{font-size:.92rem;color:rgba(251,251,249,.8);border-bottom:1px solid rgba(251,251,249,.35);padding-bottom:.2rem}
+  .link:hover{color:var(--paper);border-color:var(--paper)}
+
+  /* seções */
+  section{padding-block:clamp(4.5rem,10vw,8rem)}
+  .head{display:grid;gap:1.4rem;margin-bottom:clamp(2.5rem,5vw,4rem)}
+  @media (min-width:900px){ .head{grid-template-columns:minmax(0,42ch) minmax(0,1fr);gap:4rem;align-items:end} }
+  .head h2{font-size:clamp(2rem,4.6vw,3.4rem)}
+  .head .tag{display:block;margin-bottom:1rem}
+
+  /* índice de serviços */
+  .index{border-top:1px solid var(--line)}
+  .index .row{display:grid;gap:.4rem 3rem;padding:1.7rem 0;border-bottom:1px solid var(--line);transition:padding-left .25s ease}
+  @media (min-width:820px){
+    .index .row{grid-template-columns:minmax(0,26ch) minmax(0,1fr);align-items:baseline}
+    .index .row:hover{padding-left:1rem}
+  }
+  .index h3{font-size:1.6rem}
+  .index p{font-size:.98rem;max-width:52ch}
+
+  /* faixa escura */
+  .band{background:var(--stone-900);color:var(--paper)}
+  .band h2,.band h3{color:var(--paper)}
+  .band p{color:rgba(251,251,249,.7)}
+  .band .tag{color:rgba(251,251,249,.5)}
+
+  /* galeria — grade assimétrica, sem cartão */
+  .plates{display:grid;gap:2px;grid-template-columns:1fr}
+  @media (min-width:760px){
+    .plates{grid-template-columns:1.62fr 1fr;grid-template-rows:repeat(2,1fr)}
+    .plates figure:first-child{grid-row:span 2}
+  }
+  .plates figure{position:relative;overflow:hidden;background:var(--stone-800)}
+  .plates figure:first-child{aspect-ratio:4/5}
+  .plates figure{aspect-ratio:4/3}
+  @media (min-width:760px){ .plates figure{aspect-ratio:auto;min-height:230px} .plates figure:first-child{min-height:466px} }
+  .plates img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+  .plates figure:hover img{transform:scale(1.03)}
+  .plates figcaption{
+    position:absolute;left:0;right:0;bottom:0;padding:1.6rem 1.4rem .9rem;
+    font-size:.82rem;color:#fff;letter-spacing:.02em;
+    background:linear-gradient(transparent,rgba(17,21,18,.75))
+  }
+
+  /* quem faz */
+  .who{display:grid;gap:2px;grid-template-columns:1fr}
+  @media (min-width:820px){ .who{grid-template-columns:1.5fr 1fr 1fr} }
+  .who figure{position:relative;overflow:hidden;aspect-ratio:1/1;background:var(--stone-800)}
+  .who img{width:100%;height:100%;object-fit:cover}
+  .who figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.6rem 1.2rem .9rem;font-size:.8rem;color:#fff;background:linear-gradient(transparent,rgba(17,21,18,.78))}
+
+  /* passos */
+  .steps{border-top:1px solid var(--line);counter-reset:s}
+  .steps .row{counter-increment:s;display:grid;gap:.5rem 3rem;padding:1.9rem 0;border-bottom:1px solid var(--line);grid-template-columns:auto minmax(0,1fr)}
+  @media (min-width:820px){ .steps .row{grid-template-columns:5ch minmax(0,24ch) minmax(0,1fr);align-items:baseline} }
+  .steps .row::before{content:"0" counter(s);font-family:var(--serif);font-size:1.35rem;color:var(--ink-3)}
+  .steps h3{font-size:1.35rem}
+  .steps p{font-size:.98rem;max-width:48ch}
+
+  /* planos */
+  .sheet{width:100%;border-collapse:collapse;font-size:.95rem}
+  .sheet th,.sheet td{padding:1.15rem 1.2rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  .sheet thead th{border-bottom:1px solid var(--ink)}
+  .sheet thead th:first-child{width:34%}
+  .sheet .pn{font-family:var(--serif);font-size:1.45rem;display:block;line-height:1.1}
+  .sheet .pp{font-size:.85rem;color:var(--ink-3);display:block;margin-top:.3rem;font-variant-numeric:tabular-nums}
+  .sheet td.n{color:var(--ink-3)}
+  .sheet tbody th{font-weight:400;color:var(--ink-2)}
+  .sheet-wrap{overflow-x:auto}
+  .sheet-wrap table{min-width:640px}
+
+  /* garantia */
+  .vow{background:var(--water-2);color:var(--paper)}
+  .vow .u{padding-block:clamp(4rem,9vw,6.5rem)}
+  .vow p.big{font-family:var(--serif);font-size:clamp(1.9rem,4.6vw,3.4rem);color:var(--paper);line-height:1.1;max-width:20ch}
+  .vow p.big em{color:#A9D6D4;font-style:italic}
+  .vow p.small{color:rgba(251,251,249,.72);max-width:44ch;margin-top:1.6rem;font-size:.98rem}
+
+  /* perguntas */
+  .faq{border-top:1px solid var(--line)}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{list-style:none;cursor:pointer;padding:1.5rem 0;font-family:var(--serif);font-size:1.3rem;display:flex;justify-content:space-between;gap:2rem;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"→";color:var(--ink-3);font-size:1rem;transition:transform .25s}
+  .faq details[open] summary::after{transform:rotate(90deg)}
+  .faq details p{padding:0 0 1.6rem;max-width:60ch;font-size:.98rem}
+
+  /* contato */
+  .contact{display:grid;gap:3rem}
+  @media (min-width:940px){ .contact{grid-template-columns:minmax(0,1fr) minmax(0,26rem);gap:5rem} }
+  .facts{border-top:1px solid var(--line-dark);margin-top:2rem}
+  .facts div{padding:1.1rem 0;border-bottom:1px solid var(--line-dark);display:flex;justify-content:space-between;gap:2rem}
+  .facts dt{font-size:.82rem;color:rgba(251,251,249,.5)}
+  .facts dd{font-size:.95rem;color:var(--paper);text-align:right}
+  form{display:grid;gap:1.4rem}
+  form label{display:grid;gap:.5rem}
+  form .lb{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(251,251,249,.55)}
+  form input,form select,form textarea{background:transparent;border:0;border-bottom:1px solid var(--line-dark);padding:.6rem 0;color:var(--paper);border-radius:0}
+  form input::placeholder,form textarea::placeholder{color:rgba(251,251,249,.3)}
+  form input:focus,form select:focus,form textarea:focus{outline:0;border-bottom-color:#8FBFBF}
+  form select option{background:var(--stone-800);color:var(--paper)}
+  form textarea{resize:vertical;min-height:64px}
+  form .two{display:grid;gap:1.4rem}
+  @media (min-width:520px){ form .two{grid-template-columns:1fr 1fr} }
+  form button{margin-top:.6rem;justify-content:center;width:100%}
+  form .fine{font-size:.8rem;color:rgba(251,251,249,.42)}
+
+  /* rodapé */
+  footer{background:var(--stone-900);color:rgba(251,251,249,.55);padding-block:3rem 6.5rem}
+  footer .u{display:grid;gap:2rem}
+  @media (min-width:820px){ footer .u{grid-template-columns:1fr auto;align-items:end} }
+  footer a:hover{color:var(--paper)}
+  footer .fl{display:flex;flex-wrap:wrap;gap:1.6rem;font-size:.88rem}
+  footer .cr{font-size:.78rem;color:rgba(251,251,249,.34);border-top:1px solid var(--line-dark);padding-top:1.4rem;margin-top:1rem;grid-column:1/-1}
+
+  /* barra fixa mobile */
+  .dock{position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--paper);border-top:1px solid var(--line);padding:.7rem clamp(20px,5vw,64px) calc(.7rem + env(safe-area-inset-bottom));display:none;gap:1rem;align-items:center;justify-content:space-between}
+  .dock .t{font-size:.82rem;color:var(--ink-2);line-height:1.3}
+  .dock .cta{padding:.8rem 1.2rem;font-size:.85rem}
+  @media (max-width:900px){ .dock{display:flex} body{padding-bottom:76px} }
+
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+</style>
+</head>
+<body>
+
+<div lang="pt-BR">
+
+  <div class="bar" id="bar">
+    <div class="u">
+      <a href="#topo" class="mark">Nível <span>Piscinas</span></a>
+      <nav>
+        <a href="#servicos">Serviços</a>
+        <a href="#padrao">Trabalhos</a>
+        <a href="#planos">Planos</a>
+        <a href="#perguntas">Perguntas</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </div>
+  </div>
+
+  <header class="hero" id="topo">
+    <div class="hero-top">
+    <canvas class="caustics" aria-hidden="true"></canvas>
+    <div class="u">
+      <h1>Água limpa não é sorte. <em>É rotina.</em></h1>
+      <p class="sub">Limpeza, tratamento e manutenção de piscinas residenciais no Morumbi e região. Plano mensal ou visita avulsa.</p>
+      <div class="acts">
+        <a class="cta js-wa" href="#" target="_blank" rel="noopener">Pedir orçamento</a>
+        <a class="link" href="#planos">Ver planos e valores</a>
+      </div>
+      <div class="waterline">
+        <div><span class="n">Morumbi</span><span class="l">e bairros vizinhos, com equipe própria</span></div>
+        <div><span class="n">24 h</span><span class="l">para responder e agendar a visita técnica</span></div>
+        <div><span class="n">Sem taxa</span><span class="l">a visita de diagnóstico e o orçamento são gratuitos</span></div>
+      </div>
+    </div>
+    </div>
+    <div class="hero-plate">
+      <img src="img/piscina-marmore-01.jpg" alt="Piscina residencial com borda de mármore branco e deck escuro, água transparente, em casa contemporânea">
+    </div>
+  </header>
+
+  <!-- SERVIÇOS -->
+  <section id="servicos">
+    <div class="u">
+      <div class="head">
+        <div>
+          <span class="tag">Serviços</span>
+          <h2>O que a sua piscina precisa</h2>
+        </div>
+        <p class="lede">Levamos produto, equipamento e teste de água. Você não precisa comprar nem estocar nada.</p>
+      </div>
+      <div class="index">
+        <article class="row"><h3>Limpeza completa</h3><p>Aspiração do fundo, escovação das paredes, peneiração da superfície e limpeza da linha d'água.</p></article>
+        <article class="row"><h3>Tratamento da água</h3><p>Cloro, pH e alcalinidade ajustados na medida, com teste refeito e registrado a cada visita.</p></article>
+        <article class="row"><h3>Recuperação de água verde</h3><p>Tratamento de choque, correção química e filtragem até clarear. Sem esvaziar a piscina.</p></article>
+        <article class="row"><h3>Filtro e casa de máquinas</h3><p>Retrolavagem, troca do elemento filtrante e checagem de bomba, motor e tubulação.</p></article>
+        <article class="row"><h3>Manutenção programada</h3><p>Visitas semanais ou quinzenais para a água nunca sair do ponto — e você nunca ter surpresa.</p></article>
+        <article class="row"><h3>Preparação para evento</h3><p>Deixamos pronta na véspera e voltamos para limpar depois. Serviço avulso, sem contrato.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRABALHOS -->
+  <section class="band" id="padrao">
+    <div class="u">
+      <div class="head">
+        <div>
+          <span class="tag">Trabalhos</span>
+          <h2>O padrão que a gente entrega</h2>
+        </div>
+        <p class="lede">Piscinas sob nossos cuidados hoje, no Morumbi e região. Fotos reais, sem tratamento.</p>
+      </div>
+      <div class="plates">
+        <figure>
+          <img src="img/piscina-jardim-01.jpg" alt="Piscina revestida em pedra verde junto a um jardim vertical de samambaias, água transparente">
+          <figcaption>Piscina em pedra, com jardim vertical — manutenção quinzenal</figcaption>
+        </figure>
+        <figure>
+          <img src="img/piscina-deck-01.jpg" alt="Piscina de pastilha escura com deck de madeira, superfície espelhando o céu">
+          <figcaption>Pastilha escura e deck de madeira</figcaption>
+        </figure>
+        <figure>
+          <img src="img/piscina-marmore-02.jpg" alt="Piscina com borda de mármore e água esverdeada clara, cercada por deck escuro e espreguiçadeiras brancas">
+          <figcaption>Borda infinita em mármore</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUEM FAZ -->
+  <section>
+    <div class="u">
+      <div class="head">
+        <div>
+          <span class="tag">Quem faz</span>
+          <h2>Sempre a mesma equipe</h2>
+        </div>
+        <p class="lede">Você sabe quem entra na sua casa. Não terceirizamos visita, e quem atende hoje é quem volta na semana que vem.</p>
+      </div>
+      <div class="who">
+        <figure>
+          <img src="img/equipe-trabalho-01.jpg" alt="Profissional de camisa verde com peneira na mão, ao lado de piscina limpa em residência">
+          <figcaption>Peneiração e escovação, toda visita</figcaption>
+        </figure>
+        <figure>
+          <img src="img/teste-agua.jpg" alt="Mão segurando kit de teste de cloro e pH da água da piscina">
+          <figcaption>Cloro e pH medidos no local</figcaption>
+        </figure>
+        <figure>
+          <img src="img/aspiracao-vertical.jpg" alt="Aspirador de piscina em uso sobre o fundo de pastilhas">
+          <figcaption>Aspiração do fundo</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section id="processo" style="background:var(--limestone)">
+    <div class="u">
+      <div class="head">
+        <div><span class="tag">Como funciona</span><h2>Três passos, sem burocracia</h2></div>
+      </div>
+      <div class="steps">
+        <article class="row"><h3>Você manda uma foto</h3><p>Pelo WhatsApp, com o tamanho aproximado da piscina. Respondemos em até 24 horas.</p></article>
+        <article class="row"><h3>Visita e diagnóstico</h3><p>Avaliamos a água e os equipamentos no local e apresentamos o orçamento. Gratuito e sem compromisso.</p></article>
+        <article class="row"><h3>Piscina pronta</h3><p>Fazemos a primeira limpeza e, se você quiser, já deixamos a manutenção programada rodando.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section id="planos">
+    <div class="u">
+      <div class="head">
+        <div><span class="tag">Planos</span><h2>Escolha o cuidado</h2></div>
+        <p class="lede">O valor final depende do volume da piscina e do estado da água. O orçamento na visita é fechado, sem surpresa depois.</p>
+      </div>
+      <div class="sheet-wrap">
+        <table class="sheet">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"><span class="pn">Avulsa</span><span class="pp">R$ 000 por visita</span></th>
+              <th scope="col"><span class="pn">Quinzenal</span><span class="pp">R$ 000 por mês</span></th>
+              <th scope="col"><span class="pn">Semanal</span><span class="pp">R$ 000 por mês</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Visitas por mês</th><td>1</td><td>2</td><td>4</td></tr>
+            <tr><th scope="row">Limpeza e tratamento</th><td>Sim</td><td>Sim</td><td>Sim</td></tr>
+            <tr><th scope="row">Produtos inclusos</th><td>Sim</td><td>Básicos</td><td>Todos</td></tr>
+            <tr><th scope="row">Relatório da água</th><td class="n">—</td><td>A cada visita</td><td>A cada visita</td></tr>
+            <tr><th scope="row">Limpeza de filtro</th><td class="n">Sob orçamento</td><td class="n">Sob orçamento</td><td>Trimestral</td></tr>
+            <tr><th scope="row">Suporte no WhatsApp</th><td class="n">—</td><td>Sim</td><td>Prioritário</td></tr>
+            <tr><th scope="row">Fidelidade</th><td>Nenhuma</td><td>Nenhuma</td><td>Nenhuma</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:2.5rem;display:flex;flex-wrap:wrap;gap:1.6rem;align-items:center">
+        <a class="cta dark js-wa" href="#" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
+        <span style="font-size:.9rem;color:var(--ink-3)">Cancelamento com 30 dias de aviso, sem multa.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GARANTIA -->
+  <section class="vow">
+    <div class="u">
+      <span class="tag" style="color:rgba(251,251,249,.5);display:block;margin-bottom:1.4rem">A garantia</span>
+      <p class="big">Se a água não clarear na primeira visita, <em>voltamos sem cobrar.</em></p>
+      <p class="small">Vale para recuperação de piscina verde. Não pedimos entrada e não cobramos taxa de visita — se não resolvermos, você não paga a diferença.</p>
+    </div>
+  </section>
+
+  <!-- PERGUNTAS -->
+  <section id="perguntas">
+    <div class="u">
+      <div class="head"><div><span class="tag">Perguntas</span><h2>O que costumam perguntar</h2></div></div>
+      <div class="faq">
+        <details><summary>De quanto em quanto tempo precisa de manutenção?</summary><p>Piscina em uso constante pede visita semanal. Em uso leve ou no inverno, quinzenal costuma bastar. Na visita técnica indicamos a frequência certa para o seu caso — e não vendemos plano maior que o necessário.</p></details>
+        <details><summary>Vocês levam produto e equipamento?</summary><p>Sim. Aspirador, mangueiras, testes e produtos químicos vão com a equipe. Nos planos mensais os produtos de rotina já estão no valor.</p></details>
+        <details><summary>Minha piscina está verde. Tem jeito?</summary><p>Na grande maioria dos casos sim, e sem esvaziar. Fazemos tratamento de choque, corrigimos a química e filtramos até clarear. O prazo depende do estado da água — dizemos na visita quanto tempo vai levar.</p></details>
+        <details><summary>Preciso assinar contrato?</summary><p>Não há fidelidade. Os planos são mensais e você pode pausar ou cancelar avisando com 30 dias, sem multa.</p></details>
+        <details><summary>Quais bairros vocês atendem?</summary><p>Morumbi, Vila Tramontano, Jardim Guedala, Panamby, Vila Andrade, Real Parque, Portal do Morumbi, Jardim Colombo, Vila Sônia e Butantã. Manda o endereço no WhatsApp que confirmamos na hora.</p></details>
+        <details><summary>Como funciona o pagamento?</summary><p>Visita avulsa: no dia, por Pix, cartão ou dinheiro. Planos mensais: cobrança mensal por Pix ou cartão recorrente.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="band" id="contato">
+    <div class="u">
+      <div class="contact">
+        <div>
+          <span class="tag">Contato</span>
+          <h2 style="font-size:clamp(2rem,4.6vw,3.4rem);margin-top:1rem">Manda uma foto da sua piscina</h2>
+          <p class="lede" style="margin-top:1.4rem">É o suficiente pra gente já dar uma primeira leitura e agendar a visita. Preencha ao lado e a conversa abre no WhatsApp com seus dados prontos.</p>
+          <dl class="facts">
+            <div><dt>WhatsApp</dt><dd>(11) 99999-8888</dd></div>
+            <div><dt>Atendimento</dt><dd>Segunda a sábado, 8h às 18h</dd></div>
+            <div><dt>Área</dt><dd>Morumbi e região — São Paulo</dd></div>
+          </dl>
+        </div>
+        <form id="lead" novalidate>
+          <label><span class="lb">Nome</span><input type="text" name="nome" autocomplete="name" required placeholder="Como te chamamos"></label>
+          <div class="two">
+            <label><span class="lb">WhatsApp</span><input type="tel" name="fone" autocomplete="tel" required placeholder="(11) 90000-0000"></label>
+            <label><span class="lb">Bairro</span><input type="text" name="bairro" required placeholder="Morumbi"></label>
+          </div>
+          <label><span class="lb">Tamanho aproximado</span>
+            <select name="tam" required>
+              <option value="" selected disabled>Selecione</option>
+              <option>Até 20 mil litros</option>
+              <option>20 a 40 mil litros</option>
+              <option>Mais de 40 mil litros</option>
+              <option>Não sei informar</option>
+            </select>
+          </label>
+          <label><span class="lb">Situação</span><textarea name="msg" placeholder="Água verde, obra recente, evento marcado…"></textarea></label>
+          <button type="submit" class="cta">Continuar no WhatsApp</button>
+          <p class="fine">Abrimos a conversa com a mensagem pronta. Nenhum dado fica guardado neste site.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="u">
+      <div>
+        <a href="#topo" class="mark" style="font-size:1.35rem">Nível <span>Piscinas</span></a>
+        <p style="margin-top:.9rem;font-size:.9rem;max-width:32ch;color:rgba(251,251,249,.5)">Limpeza, tratamento e manutenção de piscinas residenciais.</p>
+      </div>
+      <div class="fl">
+        <a href="#servicos">Serviços</a>
+        <a href="#padrao">Trabalhos</a>
+        <a href="#planos">Planos</a>
+        <a class="js-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+      <div class="cr">© <span id="y"></span> Nível Piscinas — Morumbi, São Paulo</div>
+    </div>
+  </footer>
+
+  <div class="dock">
+    <span class="t">Orçamento gratuito<br>e sem compromisso</span>
+    <a class="cta dark js-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+
+</div>
+
+<script>
+  (function(){
+    var WHATS = "5511999998888";
+    var MSG = "Olá! Vim pelo site e quero um orçamento para limpeza de piscina.";
+    var base = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(MSG);
+    document.querySelectorAll(".js-wa").forEach(function(a){ a.href = base; });
+    document.getElementById("y").textContent = new Date().getFullYear();
+    var bar = document.getElementById("bar");
+    var s = function(){ bar.classList.toggle("on", window.scrollY > 40); };
+    s(); window.addEventListener("scroll", s, { passive:true });
+    document.getElementById("lead").addEventListener("submit", function(e){
+      e.preventDefault();
+      var f = e.target;
+      if(!f.checkValidity()){ f.reportValidity(); return; }
+      var g = function(n){ return (f.elements[n].value || "").trim(); };
+      var t = "Olá! Quero um orçamento para limpeza de piscina.\n\n" +
+        "Nome: " + g("nome") + "\nWhatsApp: " + g("fone") + "\nBairro: " + g("bairro") +
+        "\nTamanho: " + g("tam") + "\nSituação: " + (g("msg") || "—");
+      window.open("https://wa.me/" + WHATS + "?text=" + encodeURIComponent(t), "_blank", "noopener");
+    });
+  })();
+
+  /* ---- cáusticas: a luz que refrata no fundo da piscina ----
+     Campo de cristas (1-|n|) com deformação de domínio, desenhado num canvas
+     pequeno e esticado. Os termos de warp dependem só da linha ou só da coluna,
+     então saem do laço interno — sobram 3 senos por pixel. Roda a ~30fps, para
+     quando sai da tela ou a aba fica oculta, e nem inicia com movimento reduzido. */
+  (function(){
+    var cv = document.querySelector(".caustics");
+    if(!cv || !cv.getContext) return;
+    var ctx = cv.getContext("2d");
+    var W = 260, H = 160;
+    cv.width = W; cv.height = H;
+    var frame = ctx.createImageData(W, H);
+    var px = frame.data;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var t = 0, raf = null, onScreen = true, tick = 0;
+
+    for (var i = 0; i < W * H; i++) {              // cor fixa: teal claro
+      px[i*4] = 150; px[i*4+1] = 205; px[i*4+2] = 202;
+    }
+    var colU = new Float32Array(W), colWarp = new Float32Array(W);
+    var rowV = new Float32Array(H), rowWarp = new Float32Array(H);
+    for (var x = 0; x < W; x++) colU[x] = (x / W) * 20;
+    for (var y = 0; y < H; y++) rowV[y] = (y / H) * 15;
+
+    function draw(){
+      var x, y;
+      var driftU = t * 0.75, driftV = t * 0.55;   // deslocamento: é isto que faz escorrer
+      for (x = 0; x < W; x++) colWarp[x] = 1.3 * Math.sin((x / W) * 9.0 - t * 0.45);
+      for (y = 0; y < H; y++) rowWarp[y] = 1.3 * Math.sin((y / H) * 7.0 + t * 0.55);
+      for (y = 0; y < H; y++){
+        var wvBase = rowV[y] - driftV, warpRow = rowWarp[y] + driftU, off = y * W;
+        for (x = 0; x < W; x++){
+          var wu = colU[x] + warpRow;
+          var wv = wvBase + colWarp[x];
+          var n = (Math.sin(wu) + Math.sin(wv) + Math.sin((wu + wv) * 0.6)) / 3;
+          var r = 1 - (n < 0 ? -n : n);          // crista fina no cruzamento do zero
+          var r2 = r * r, r4 = r2 * r2;
+          var a = r4 * r4 * r2 * 255;             // r^10
+          px[(off + x) * 4 + 3] = a > 255 ? 255 : a;
+        }
+      }
+      ctx.putImageData(frame, 0, 0);
+    }
+
+    function loop(){
+      raf = requestAnimationFrame(loop);
+      if ((tick++ & 1) === 0) return;             // ~30fps
+      t += 0.05;
+      draw();
+    }
+    function start(){ if(!raf && !reduce && onScreen && !document.hidden) loop(); }
+    function stop(){ if(raf){ cancelAnimationFrame(raf); raf = null; } }
+
+    draw();
+    start();                                      // começa já; o observer abaixo só pausa
+    if (window.IntersectionObserver){
+      new IntersectionObserver(function(e){
+        onScreen = e[0].isIntersecting;
+        onScreen ? start() : stop();
+      }).observe(cv);
+    }
+    document.addEventListener("visibilitychange", function(){
+      document.hidden ? stop() : start();
+    });
+  })();
+
+  /* ---- parallax da faixa de foto: profundidade ao rolar, sem sequestrar o scroll ---- */
+  (function(){
+    var plate = document.querySelector(".hero-plate");
+    var img = plate && plate.querySelector("img");
+    if(!img || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var pending = false;
+    function update(){
+      var r = plate.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      if (r.bottom > -200 && r.top < vh + 200){
+        var p = (r.top + r.height / 2 - vh / 2) / vh;   // ~ -1 a 1
+        if (p < -1) p = -1; if (p > 1) p = 1;
+        img.style.transform = "translate3d(0," + (p * 7).toFixed(2) + "%,0)";
+      }
+      pending = false;
+    }
+    function onScroll(){ if(!pending){ pending = true; requestAnimationFrame(update); } }
+    update();
+    window.addEventListener("scroll", onScroll, { passive:true });
+    window.addEventListener("resize", onScroll);
+  })();
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Nivel Piscinas","description":"Limpeza, tratamento e manutencao de piscinas residenciais.","areaServed":"Morumbi e regiao, Sao Paulo","telephone":"+5511999998888","priceRange":"$$","openingHours":"Mo-Sa 08:00-18:00"}
+</script>
+</body>
+</html>
