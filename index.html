@@ -49,7 +49,9 @@
 
   body{
     background:var(--paper);color:var(--ink);font-family:var(--sans);
-    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+    overflow-x:clip   /* rede de segurança: "clip" não cria contêiner de rolagem,
+                         então o cabeçalho fixo e o rodapé continuam funcionando */
   }
   ::selection{background:var(--water);color:#fff}
   :focus-visible{outline:2px solid var(--water);outline-offset:3px}
@@ -158,13 +160,24 @@
   .who img{width:100%;height:100%;object-fit:cover}
   .who figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.6rem 1.2rem .9rem;font-size:.8rem;color:#fff;background:linear-gradient(transparent,rgba(17,21,18,.78))}
 
-  /* passos */
+  /* passos — 3 itens (numero, titulo, texto) numa grade de 2 colunas no mobile:
+     sem posicionar explicitamente, o paragrafo caia na coluna "auto" e a
+     esticava ate estourar a largura da pagina. Era a origem do scroll lateral. */
   .steps{border-top:1px solid var(--line);counter-reset:s}
-  .steps .row{counter-increment:s;display:grid;gap:.5rem 3rem;padding:1.9rem 0;border-bottom:1px solid var(--line);grid-template-columns:auto minmax(0,1fr)}
-  @media (min-width:820px){ .steps .row{grid-template-columns:5ch minmax(0,24ch) minmax(0,1fr);align-items:baseline} }
-  .steps .row::before{content:"0" counter(s);font-family:var(--serif);font-size:1.35rem;color:var(--ink-3)}
-  .steps h3{font-size:1.35rem}
-  .steps p{font-size:.98rem;max-width:48ch}
+  .steps .row{
+    counter-increment:s;display:grid;gap:.35rem 1.2rem;padding:1.9rem 0;
+    border-bottom:1px solid var(--line);grid-template-columns:auto minmax(0,1fr)
+  }
+  .steps .row::before{
+    content:"0" counter(s);font-family:var(--serif);font-size:1.35rem;color:var(--ink-3);
+    grid-column:1;grid-row:1
+  }
+  .steps h3{font-size:1.35rem;grid-column:2}
+  .steps p{font-size:.98rem;max-width:48ch;grid-column:2}
+  @media (min-width:820px){
+    .steps .row{grid-template-columns:5ch minmax(0,24ch) minmax(0,1fr);gap:.5rem 3rem;align-items:baseline}
+    .steps p{grid-column:3;grid-row:1}
+  }
 
   /* planos */
   .sheet{width:100%;border-collapse:collapse;font-size:.95rem}
@@ -175,8 +188,10 @@
   .sheet .pp{font-size:.85rem;color:var(--ink-3);display:block;margin-top:.3rem;font-variant-numeric:tabular-nums}
   .sheet td.n{color:var(--ink-3)}
   .sheet tbody th{font-weight:400;color:var(--ink-2)}
-  .sheet-wrap{overflow-x:auto}
+  .sheet-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .sheet-wrap table{min-width:640px}
+  .sheet-hint{display:none;font-size:.8rem;color:var(--ink-3);margin-top:.7rem;letter-spacing:.02em}
+  @media (max-width:760px){ .sheet-hint{display:block} }
 
   /* garantia */
   .vow{background:var(--water-2);color:var(--paper)}
@@ -198,7 +213,7 @@
   .contact{display:grid;gap:3rem}
   @media (min-width:940px){ .contact{grid-template-columns:minmax(0,1fr) minmax(0,26rem);gap:5rem} }
   .facts{border-top:1px solid var(--line-dark);margin-top:2rem}
-  .facts div{padding:1.1rem 0;border-bottom:1px solid var(--line-dark);display:flex;justify-content:space-between;gap:2rem}
+  .facts div{padding:1.1rem 0;border-bottom:1px solid var(--line-dark);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.3rem 2rem}
   .facts dt{font-size:.82rem;color:rgba(251,251,249,.5)}
   .facts dd{font-size:.95rem;color:var(--paper);text-align:right}
   form{display:grid;gap:1.4rem}
@@ -379,17 +394,19 @@
           <tbody>
             <tr><th scope="row">Visitas por mês</th><td>1</td><td>2</td><td>4</td></tr>
             <tr><th scope="row">Limpeza e tratamento</th><td>Sim</td><td>Sim</td><td>Sim</td></tr>
-            <tr><th scope="row">Produtos inclusos</th><td>Sim</td><td>Básicos</td><td>Todos</td></tr>
+            <tr><th scope="row">Produtos inclusos</th><td>Sim</td><td>Sim</td><td>Sim</td></tr>
+            <tr><th scope="row">Limpeza do filtro</th><td>Inclusa</td><td>Inclusa</td><td>Inclusa</td></tr>
+            <tr><th scope="row">Troca de areia e manutenção do filtro</th><td class="n">À parte</td><td class="n">À parte</td><td class="n">À parte</td></tr>
             <tr><th scope="row">Relatório da água</th><td class="n">—</td><td>A cada visita</td><td>A cada visita</td></tr>
-            <tr><th scope="row">Limpeza de filtro</th><td class="n">Sob orçamento</td><td class="n">Sob orçamento</td><td>Trimestral</td></tr>
             <tr><th scope="row">Suporte no WhatsApp</th><td class="n">—</td><td>Sim</td><td>Prioritário</td></tr>
             <tr><th scope="row">Fidelidade</th><td>Nenhuma</td><td>Nenhuma</td><td>Nenhuma</td></tr>
           </tbody>
         </table>
       </div>
+      <p class="sheet-hint">Arraste a tabela para o lado para ver todos os planos.</p>
       <div style="margin-top:2.5rem;display:flex;flex-wrap:wrap;gap:1.6rem;align-items:center">
         <a class="cta dark js-wa" href="#" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
-        <span style="font-size:.9rem;color:var(--ink-3)">Cancelamento com 30 dias de aviso, sem multa.</span>
+        <span style="font-size:.9rem;color:var(--ink-3);max-width:44ch">Os produtos vão com a gente em todos os planos. Se você já tem os seus, a gente conversa e ajusta o valor.<br>Cancelamento com 30 dias de aviso, sem multa.</span>
       </div>
     </div>
   </section>
@@ -409,7 +426,8 @@
       <div class="head"><div><span class="tag">Perguntas</span><h2>O que costumam perguntar</h2></div></div>
       <div class="faq">
         <details><summary>De quanto em quanto tempo precisa de manutenção?</summary><p>Piscina em uso constante pede visita semanal. Em uso leve ou no inverno, quinzenal costuma bastar. Na visita técnica indicamos a frequência certa para o seu caso — e não vendemos plano maior que o necessário.</p></details>
-        <details><summary>Vocês levam produto e equipamento?</summary><p>Sim. Aspirador, mangueiras, testes e produtos químicos vão com a equipe. Nos planos mensais os produtos de rotina já estão no valor.</p></details>
+        <details><summary>Vocês levam produto e equipamento?</summary><p>Sim, em todos os planos. Aspirador, mangueiras, testes e produtos químicos vão com a equipe e já estão no valor — você não precisa comprar nem estocar nada. Se você já tem os seus produtos, avisa que a gente conversa e ajusta o preço.</p></details>
+        <details><summary>A limpeza do filtro está inclusa?</summary><p>A limpeza do filtro está inclusa em todos os planos. O que fica à parte é a manutenção do equipamento — troca de areia, reparo de bomba e afins —, orçada separadamente quando for necessária.</p></details>
         <details><summary>Minha piscina está verde. Tem jeito?</summary><p>Na grande maioria dos casos sim, e sem esvaziar. Fazemos tratamento de choque, corrigimos a química e filtramos até clarear. O prazo depende do estado da água — dizemos na visita quanto tempo vai levar.</p></details>
         <details><summary>Preciso assinar contrato?</summary><p>Não há fidelidade. Os planos são mensais e você pode pausar ou cancelar avisando com 30 dias, sem multa.</p></details>
         <details><summary>Quais bairros vocês atendem?</summary><p>Morumbi, Vila Tramontano, Jardim Guedala, Panamby, Vila Andrade, Real Parque, Portal do Morumbi, Jardim Colombo, Vila Sônia e Butantã. Manda o endereço no WhatsApp que confirmamos na hora.</p></details>
