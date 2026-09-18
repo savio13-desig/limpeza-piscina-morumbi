@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#111512">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111512'/%3E%3Cpath d='M4 20c4-3 8 3 12 0s8-3 12 0' stroke='%238FBFBF' stroke-width='2.4' fill='none'/%3E%3C/svg%3E">
+<title>Orçamentos EL Piscinas</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..700;1,9..144,500..700&family=Instrument+Sans:wght@400;500;600&display=swap">
+
+<style>
+  /*
+    Mesma identidade da página do Elton: pedra escura, calcário claro, água profunda.
+    Arestas retas, sem cartão flutuante. O único objeto "erguido" é a folha do orçamento,
+    porque é ela o produto. Visual único e deliberado: tudo pintado explicitamente.
+  */
+  :root{
+    --stone-900:#111512;
+    --paper:#FBFBF9;
+    --limestone:#E9ECE6;
+    --ink:#111512;
+    --ink-2:#4C554E;
+    --ink-3:#7E877F;
+    --line:#D9DFD6;
+    --line-2:#C5CEC2;
+    --water:#1D6A6E;
+    --water-2:#155054;
+    --stop:#933229;
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+  :focus-visible{outline:2px solid var(--water);outline-offset:2px}
+  ::selection{background:var(--water);color:#fff}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;margin:0;line-height:1.1;text-wrap:balance;font-optical-sizing:auto;font-variation-settings:"SOFT" 0,"WONK" 0}
+  p{margin:0}
+  button{font:inherit}
+
+  .wrap{max-width:1200px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px);padding-block:clamp(1.1rem,3vw,2rem) 4rem}
+  .tag{font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+  .hint{font-size:.84rem;color:var(--ink-3)}
+
+  /* topo e abas */
+  .top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:.6rem 2rem;margin-bottom:.4rem}
+  .top h1{font-size:clamp(1.6rem,3.2vw,2.2rem);margin-top:.3rem}
+  .tabs{display:flex;gap:.1rem;overflow-x:auto;border-bottom:1px solid var(--line-2);margin-bottom:1.6rem}
+  .tab{background:none;border:0;border-bottom:2px solid transparent;padding:.75rem 1rem;font-weight:600;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+  .tab:hover{color:var(--ink)}
+  .tab[aria-current=page]{color:var(--ink);border-bottom-color:var(--water)}
+
+  .grid{display:grid;gap:2.2rem;grid-template-columns:minmax(0,1fr)}
+  @media (min-width:1040px){
+    .grid{grid-template-columns:minmax(0,27rem) minmax(0,1fr);gap:3rem;align-items:start}
+    .sheet-col{position:sticky;top:calc(env(safe-area-inset-top,0px) + 1rem);max-height:calc(100vh - 2rem);overflow:auto;padding-right:.3rem}
+  }
+  .jump{font-size:.86rem;color:var(--water-2);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}
+  @media (min-width:1040px){ .jump{display:none} }
+
+  /* formulário */
+  .example{border-left:3px solid var(--water);background:var(--limestone);padding:.8rem 1rem;margin-bottom:1.3rem;font-size:.9rem;color:var(--ink-2)}
+  .example strong{color:var(--ink)}
+  .link{background:none;border:0;padding:0;font:inherit;font-weight:600;color:var(--water-2);cursor:pointer;text-decoration:underline;text-underline-offset:.18em}
+  .grp{padding-block:1.25rem}
+  .grp + .grp{border-top:1px solid var(--line)}
+  .grp:first-child{padding-top:0}
+  .grp h2{font-size:1.15rem;margin-bottom:.8rem;display:flex;align-items:baseline;gap:.6rem}
+  .opt{font-family:var(--sans);font-size:.66rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  label,legend{display:block;font-size:.73rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin:0 0 .3rem;padding:0}
+  .field{margin-top:.85rem}
+  .field:first-child{margin-top:0}
+  input[type=text],input[type=tel],input[type=email],select,textarea{
+    width:100%;font:inherit;font-size:1rem;color:var(--ink);background:#fff;
+    border:1px solid var(--line-2);border-radius:2px;padding:.6rem .7rem
+  }
+  input[inputmode=numeric],input[inputmode=decimal]{font-variant-numeric:tabular-nums}
+  textarea{resize:vertical;min-height:4.6rem;line-height:1.45}
+  .cols2{display:grid;gap:.85rem;grid-template-columns:minmax(0,1fr)}
+  @media (min-width:440px){ .cols2{grid-template-columns:repeat(2,minmax(0,1fr))} }
+  .cols-cidade{display:grid;gap:.85rem;grid-template-columns:minmax(0,1fr) 4.5rem}
+  .three{display:grid;gap:.6rem;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:.7rem}
+  .three label{font-size:.68rem}
+  .calc{margin-top:.8rem;font-size:.9rem}
+  .calc summary{cursor:pointer;color:var(--water-2);font-weight:600}
+  .calc .hint{margin-top:.6rem}
+  .money{display:flex;align-items:stretch;min-width:0}
+  .money span{display:grid;place-items:center;padding-inline:.6rem;background:var(--limestone);border:1px solid var(--line-2);border-right:0;border-radius:2px 0 0 2px;font-weight:600;font-size:.85rem;color:var(--ink-2)}
+  .money input{border-radius:0 2px 2px 0;min-width:0}
+
+  /* itens do orçamento */
+  .line{border:1px solid var(--line-2);background:#fff;padding:.7rem;margin-top:.6rem}
+  .l-top{display:flex;gap:.5rem}
+  .l-top input{flex:1;min-width:0}
+  .l-x{flex:0 0 2.5rem;border:1px solid var(--line-2);background:#fff;font-size:1.25rem;line-height:1;color:var(--ink-3);cursor:pointer}
+  .l-x:hover{color:var(--stop);border-color:var(--stop)}
+  .l-nums{display:grid;grid-template-columns:4.2rem 4.6rem minmax(0,1fr) auto;gap:.5rem;margin-top:.5rem;align-items:center}
+  .l-nums input{padding:.5rem .55rem}
+  .l-total{min-width:5.5rem;text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+  @media (max-width:520px){ .l-nums{grid-template-columns:4.2rem 4.6rem minmax(0,1fr)} .l-total{grid-column:1/-1} }
+  .l-rec{display:flex;align-items:center;gap:.5rem;margin:.55rem 0 0;font-size:.82rem;font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink-2)}
+  .l-rec input{width:1rem;height:1rem;margin:0;accent-color:var(--water)}
+  .add-row{display:grid;gap:.5rem;grid-template-columns:minmax(0,1fr) auto;margin-top:.8rem}
+  .aviso{margin-top:.6rem;font-size:.84rem;color:var(--stop)}
+
+  /* botões */
+  .btn{font-size:.92rem;font-weight:600;padding:.75rem 1.15rem;border-radius:2px;border:1px solid var(--stone-900);background:transparent;color:var(--stone-900);cursor:pointer;transition:background .2s,color .2s}
+  .btn:hover:not(:disabled){background:var(--stone-900);color:var(--paper)}
+  .btn.primary{background:var(--stone-900);color:var(--paper)}
+  .btn.primary:hover:not(:disabled){background:var(--water);border-color:var(--water)}
+  .btn:disabled{opacity:.42;cursor:not-allowed}
+  .btn.plain{border-color:transparent;padding-inline:.4rem;color:var(--ink-2)}
+  .btn.plain:hover:not(:disabled){background:transparent;color:var(--ink);text-decoration:underline}
+  .btn.sm{padding:.5rem .8rem;font-size:.84rem}
+  .actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:.7rem}
+  #dica{margin-bottom:1rem;min-height:1.3em}
+
+  /* a folha */
+  .sheet{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line-2);box-shadow:0 22px 44px -28px rgba(17,21,18,.45)}
+  .sh-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:.8rem 1.5rem;padding:1.4rem clamp(1.1rem,3vw,1.9rem);background:var(--stone-900);color:var(--paper)}
+  .wm{font-family:var(--serif);font-weight:600;font-size:1.9rem;letter-spacing:.06em;line-height:1}
+  .wm-sub{font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(251,251,249,.62);margin-left:.6rem}
+  .sh-meta{display:grid;justify-items:end;gap:.1rem;font-size:.78rem;color:rgba(251,251,249,.72);font-variant-numeric:tabular-nums;text-align:right}
+  .sh-title{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--paper);margin-bottom:.15rem}
+  .sh-grid{margin:0;padding:1rem clamp(1.1rem,3vw,1.9rem);display:grid;gap:.75rem 1.6rem;grid-template-columns:repeat(auto-fit,minmax(11.5rem,1fr));border-bottom:1px solid var(--line)}
+  .sh-grid .f{min-width:0}
+  .sh-grid .f.wide{grid-column:1/-1}
+  .sh-grid dt{font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+  .sh-grid dd{margin:.05rem 0 0;font-size:.96rem;overflow-wrap:anywhere;padding-bottom:.25rem;border-bottom:1px solid var(--line)}
+  .sh-block{padding:1.1rem clamp(1.1rem,3vw,1.9rem);border-bottom:1px solid var(--line)}
+  .sh-block h3{font-family:var(--sans);font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.6rem}
+  .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.1rem 1rem;padding-block:.55rem;border-top:1px solid var(--line)}
+  .it:first-of-type{border-top:0;padding-top:0}
+  .it .d{font-weight:500;overflow-wrap:anywhere}
+  .it .t{font-weight:600;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  .it .s{grid-column:1/-1;font-size:.82rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .it .t.pend{font-weight:500;font-style:italic;color:var(--ink-3)}
+  .empty{color:var(--ink-3);font-size:.92rem}
+  .tot{display:flex;flex-wrap:wrap;gap:1rem 2.6rem;align-items:flex-end}
+  .tot .lb{font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+  .tot .vl{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4.6vw,2.7rem);line-height:1.05;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+  .tot .vl.pending{font-size:1.4rem;font-style:italic;color:var(--ink-3)}
+  .tot .vl small{font-family:var(--sans);font-size:.8rem;font-weight:500;letter-spacing:0;color:var(--ink-2);margin-left:.3rem}
+  .sheet ul{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+  .sheet li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.6rem;font-size:.9rem}
+  .sheet li::before{content:"—";color:var(--ink-3)}
+  .obs{margin-top:.7rem;font-size:.9rem;color:var(--ink-2);white-space:pre-wrap;overflow-wrap:anywhere}
+  .sh-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.3rem 1.5rem;padding:.95rem clamp(1.1rem,3vw,1.9rem);background:var(--limestone);font-size:.82rem;color:var(--ink-2)}
+  .stamp{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%) rotate(-14deg);border:3px solid rgba(147,50,41,.5);color:rgba(147,50,41,.5);padding:.2rem 1.2rem;font-weight:700;font-size:clamp(1.8rem,5vw,3rem);letter-spacing:.24em;text-transform:uppercase;pointer-events:none;z-index:2}
+
+  .watext{margin-top:1rem;font-size:.9rem}
+  .watext summary{cursor:pointer;color:var(--water-2);font-weight:600}
+  .watext pre{margin:.7rem 0 0;padding:.9rem 1rem;background:var(--limestone);border:1px solid var(--line);font:400 .84rem/1.5 var(--sans);white-space:pre-wrap;overflow-wrap:anywhere}
+
+  /* catálogo, histórico, dados */
+  .panel{max-width:56rem}
+  .panel > .lead{max-width:60ch;color:var(--ink-2);margin:.5rem 0 1.4rem}
+  .panel h2{font-size:1.5rem}
+  .cat-group{margin-top:1.4rem}
+  .cat-group h3{font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);padding-bottom:.4rem;border-bottom:1px solid var(--line-2)}
+  .cat-row{display:grid;gap:.5rem;grid-template-columns:minmax(0,1fr) 2.5rem;padding-block:.75rem;border-bottom:1px solid var(--line)}
+  .cat-row .r2{grid-column:1/-1;display:grid;gap:.5rem;grid-template-columns:5.5rem minmax(0,1fr) auto;align-items:center}
+  .cat-row .r2 .money input{padding:.5rem .6rem}
+  .cat-row .r2 input[type=text]{padding:.5rem .6rem}
+  .cat-row .l-rec{margin:0}
+  .hist-item{display:grid;gap:.3rem 1rem;grid-template-columns:minmax(0,1fr) auto;padding-block:.9rem;border-bottom:1px solid var(--line);align-items:center}
+  .hist-item .who{font-weight:600}
+  .hist-item .meta{grid-column:1;font-size:.84rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .hist-item .btns{grid-column:2;grid-row:1/3;display:flex;flex-wrap:wrap;gap:.4rem;justify-content:flex-end}
+  @media (max-width:520px){ .hist-item{grid-template-columns:minmax(0,1fr)} .hist-item .btns{grid-column:1;grid-row:auto;justify-content:flex-start} }
+  .file{margin-top:.8rem}
+  .file input{font-size:.9rem;max-width:100%}
+  .foot-note{margin-top:2.4rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.8rem;color:var(--ink-3);max-width:72ch}
+
+  .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 1.2rem);transform:translateX(-50%);background:var(--stone-900);color:var(--paper);padding:.7rem 1.1rem;font-size:.9rem;z-index:50;max-width:calc(100vw - 32px)}
+
+  @media print{
+    @page{size:A4;margin:12mm}
+    body{background:#fff}
+    .top,.tabs,.tool,.actions,#dica,.watext,.foot-note,.toast,.jump,#v-cat,#v-hist,#v-cfg{display:none!important}
+    .wrap{padding:0;max-width:none}
+    .grid{display:block}
+    .sheet-col{position:static;max-height:none;overflow:visible}
+    .sheet{box-shadow:none;border-color:#888}
+    .sh-head,.sh-foot{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<div lang="pt-BR" class="wrap">
+
+  <header class="top">
+    <div>
+      <span class="tag">Uso interno · EL Piscinas</span>
+      <h1>Orçamentos</h1>
+    </div>
+    <a class="jump" id="jump" href="#sheet-col">Ir para a folha ↓</a>
+  </header>
+
+  <nav class="tabs" aria-label="Seções">
+    <button type="button" class="tab" id="t-orc" data-view="orc">Orçamento</button>
+    <button type="button" class="tab" id="t-cat" data-view="cat">Catálogo e valores</button>
+    <button type="button" class="tab" id="t-hist" data-view="hist">Histórico</button>
+    <button type="button" class="tab" id="t-cfg" data-view="cfg">Meus dados</button>
+  </nav>
+
+  <!-- ============ ORÇAMENTO ============ -->
+  <div id="v-orc">
+    <div class="grid">
+
+      <form id="f" class="tool" autocomplete="off" novalidate onsubmit="return false">
+
+        <div id="exemplo" class="example" role="status">
+          <strong>Exemplo carregado</strong> — nomes e valores fictícios, só para mostrar como fica. Ao tocar em qualquer campo, o exemplo some.
+          <button type="button" id="novo" class="link">Começar um orçamento novo</button>
+        </div>
+
+        <section class="grp">
+          <h2>Cliente</h2>
+          <div class="field"><label for="c-nome">Nome</label><input id="c-nome" type="text" placeholder="Nome de quem pediu o orçamento"></div>
+          <div class="field cols2">
+            <div><label for="c-fone">Telefone / WhatsApp</label><input id="c-fone" type="tel" inputmode="tel" placeholder="(11) 90000-0000"></div>
+            <div><label for="c-email">E-mail <span class="opt">opcional</span></label><input id="c-email" type="email" placeholder="nome@email.com"></div>
+          </div>
+          <div class="field"><label for="c-end">Endereço</label><input id="c-end" type="text" placeholder="Rua e número"></div>
+          <div class="field cols2">
+            <div><label for="c-bairro">Bairro</label><input id="c-bairro" type="text" placeholder="Morumbi"></div>
+            <div class="cols-cidade">
+              <div><label for="c-cidade">Cidade</label><input id="c-cidade" type="text"></div>
+              <div><label for="c-uf">UF</label><input id="c-uf" type="text" maxlength="2"></div>
+            </div>
+          </div>
+          <div class="field"><label for="c-doc">CPF ou CNPJ <span class="opt">opcional</span></label><input id="c-doc" type="text" inputmode="numeric"></div>
+        </section>
+
+        <section class="grp">
+          <h2>Piscina</h2>
+          <label for="p-volume">Volume em litros <span class="opt">opcional</span></label>
+          <input id="p-volume" type="text" inputmode="numeric" placeholder="ex.: 30.000">
+          <details class="calc">
+            <summary>Não sabe o volume? Calcule pelas medidas</summary>
+            <div class="three">
+              <div><label for="p-comp">Compr. (m)</label><input id="p-comp" type="text" inputmode="decimal" placeholder="8"></div>
+              <div><label for="p-larg">Largura (m)</label><input id="p-larg" type="text" inputmode="decimal" placeholder="4"></div>
+              <div><label for="p-prof">Prof. média (m)</label><input id="p-prof" type="text" inputmode="decimal" placeholder="1,4"></div>
+            </div>
+            <p class="hint">litros = comprimento × largura × profundidade média × 1.000. Arredondado para 100 L.</p>
+          </details>
+        </section>
+
+        <section class="grp">
+          <h2>Serviços e materiais</h2>
+          <div id="itens"></div>
+          <div class="add-row">
+            <select id="add-cat" aria-label="Adicionar item do catálogo"></select>
+            <button type="button" id="add-blank" class="btn sm">Item em branco</button>
+          </div>
+          <p id="aviso-cat" class="aviso" hidden>Seu catálogo ainda está sem valores. Abra “Catálogo e valores” e preencha uma vez — depois é só escolher aqui.</p>
+        </section>
+
+        <section class="grp">
+          <h2>Condições</h2>
+          <div class="field cols2">
+            <div><label for="q-pag">Pagamento</label><input id="q-pag" type="text"></div>
+            <div><label for="q-validade">Válido por</label>
+              <select id="q-validade"><option value="7">7 dias</option><option value="15">15 dias</option><option value="30">30 dias</option></select>
+            </div>
+          </div>
+          <div class="field"><label for="q-prazo">Início do serviço <span class="opt">opcional</span></label><input id="q-prazo" type="text" placeholder="Ex.: em até 2 dias úteis após a aprovação"></div>
+          <div class="field"><label for="q-cond">Condições do serviço</label><textarea id="q-cond" rows="5"></textarea><p class="hint" style="margin-top:.3rem">Uma condição por linha. O texto padrão fica em “Meus dados”.</p></div>
+          <div class="field"><label for="q-obs">Observações <span class="opt">opcional</span></label><textarea id="q-obs" rows="3" placeholder="Ex.: água com leve turbidez; sugerida correção na primeira visita."></textarea></div>
+        </section>
+      </form>
+
+      <div class="sheet-col" id="sheet-col">
+        <div class="actions">
+          <button type="button" id="btn-wa" class="btn primary">Abrir no WhatsApp</button>
+          <button type="button" id="btn-copy" class="btn">Copiar texto</button>
+          <button type="button" id="btn-print" class="btn">Imprimir ou PDF</button>
+          <button type="button" id="btn-save" class="btn plain">Salvar</button>
+          <button type="button" id="btn-novo" class="btn plain">Novo orçamento</button>
+        </div>
+        <p id="dica" class="hint"></p>
+
+        <article class="sheet" id="sheet" aria-label="Pré-visualização do orçamento">
+          <div class="stamp" id="stamp" aria-hidden="true">Exemplo</div>
+          <header class="sh-head">
+            <div><span class="wm" id="s-wm"></span><span class="wm-sub" id="s-wm-sub"></span></div>
+            <div class="sh-meta">
+              <span class="sh-title" id="s-num">Orçamento</span>
+              <span id="s-emit"></span>
+              <span id="s-valid"></span>
+            </div>
+          </header>
+          <dl class="sh-grid" id="s-grid"></dl>
+          <section class="sh-block"><h3>Itens</h3><div id="s-itens"></div></section>
+          <section class="sh-block"><h3>Total</h3><div class="tot" id="s-tot"></div></section>
+          <section class="sh-block" id="s-cond-blk"><h3>Condições</h3><ul id="s-cond"></ul><p class="obs" id="s-obs"></p></section>
+          <footer class="sh-foot" id="s-foot"></footer>
+        </article>
+
+        <details class="watext">
+          <summary>Ver o texto que vai para o WhatsApp</summary>
+          <pre id="watext"></pre>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CATÁLOGO ============ -->
+  <div id="v-cat" class="panel" hidden>
+    <h2>Catálogo e valores</h2>
+    <p class="lead">Coloque aqui seus serviços, materiais e valores uma única vez. Na hora de montar o orçamento, é só escolher o item e ajustar a quantidade. Tudo o que você mudar fica salvo neste aparelho.</p>
+    <div id="cat-list"></div>
+    <div class="actions" style="margin-top:1.2rem">
+      <button type="button" id="cat-add-srv" class="btn sm">+ Novo serviço</button>
+      <button type="button" id="cat-add-mat" class="btn sm">+ Novo material</button>
+    </div>
+    <p class="hint" style="margin-top:.8rem">Dica: para dar desconto, crie um item “Desconto” com valor negativo (ex.: -50,00).</p>
+  </div>
+
+  <!-- ============ HISTÓRICO ============ -->
+  <div id="v-hist" class="panel" hidden>
+    <h2>Histórico</h2>
+    <p class="lead">Os orçamentos que você enviou, copiou, imprimiu ou salvou. Abra um para rever ou duplique para fazer outro parecido.</p>
+    <div id="hist-list"></div>
+  </div>
+
+  <!-- ============ MEUS DADOS ============ -->
+  <div id="v-cfg" class="panel" hidden>
+    <h2>Meus dados</h2>
+    <p class="lead">Aparecem no cabeçalho e no rodapé de todo orçamento.</p>
+    <form autocomplete="off" novalidate onsubmit="return false">
+      <section class="grp">
+        <div class="field cols2">
+          <div><label for="s-empresa">Nome da empresa</label><input id="s-empresa" type="text"></div>
+          <div><label for="s-nome">Responsável</label><input id="s-nome" type="text"></div>
+        </div>
+        <div class="field cols2">
+          <div><label for="s-fone">WhatsApp</label><input id="s-fone" type="tel" inputmode="tel"></div>
+          <div><label for="s-email">E-mail <span class="opt">opcional</span></label><input id="s-email" type="email"></div>
+        </div>
+        <div class="field cols2">
+          <div><label for="s-doc">CPF ou CNPJ <span class="opt">opcional</span></label><input id="s-doc" type="text"></div>
+          <div class="cols-cidade">
+            <div><label for="s-cidade">Cidade padrão</label><input id="s-cidade" type="text"></div>
+            <div><label for="s-uf">UF</label><input id="s-uf" type="text" maxlength="2"></div>
+          </div>
+        </div>
+      </section>
+      <section class="grp">
+        <h2>Padrões de todo orçamento novo</h2>
+        <div class="field cols2">
+          <div><label for="s-pag">Pagamento</label><input id="s-pag" type="text"></div>
+          <div><label for="s-validade">Válido por</label>
+            <select id="s-validade"><option value="7">7 dias</option><option value="15">15 dias</option><option value="30">30 dias</option></select>
+          </div>
+        </div>
+        <div class="field"><label for="s-prazo">Início do serviço <span class="opt">opcional</span></label><input id="s-prazo" type="text"></div>
+        <div class="field"><label for="s-cond">Condições do serviço</label><textarea id="s-cond" rows="6"></textarea><p class="hint" style="margin-top:.3rem">Uma condição por linha. Só coloque o que você realmente cumpre.</p></div>
+      </section>
+      <section class="grp">
+        <h2>Backup</h2>
+        <p class="hint" style="max-width:62ch">Catálogo, valores, histórico e estes dados ficam guardados só neste aparelho. Se limpar os dados do navegador ou trocar de celular, eles somem — por isso baixe um backup de vez em quando.</p>
+        <div class="actions" style="margin-top:.8rem"><button type="button" id="b-export" class="btn sm">Baixar backup</button></div>
+        <div class="file"><label for="b-import">Restaurar de um backup <span class="opt">substitui os dados deste aparelho</span></label><input id="b-import" type="file" accept="application/json,.json"></div>
+      </section>
+    </form>
+  </div>
+
+  <p class="foot-note">Nada é enviado nem guardado em servidor: tudo fica neste aparelho, no navegador. O WhatsApp só abre com a mensagem pronta.</p>
+
+  <datalist id="unidades">
+    <option value="un"></option><option value="kg"></option><option value="L"></option><option value="saco"></option>
+    <option value="visita"></option><option value="mês"></option><option value="serviço"></option><option value="h"></option>
+  </datalist>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function $(id){ return document.getElementById(id); }
+
+  /* ================= armazenamento (só neste aparelho) ================= */
+  var K = { settings:'elp2:settings', catalog:'elp2:catalog', history:'elp2:history', draft:'elp2:draft', counter:'elp2:counter' };
+  function load(k, def){ try{ var v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }catch(e){ return def; } }
+  function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); return true; }catch(e){ return false; } }
+
+  var uidN = 0;
+  function uid(){ return 'u' + Date.now().toString(36) + (++uidN); }
+  function clone(o){ return JSON.parse(JSON.stringify(o)); }
+
+  var DEFAULT_SETTINGS = {
+    empresa:'EL Piscinas', nome:'Elton', fone:'(11) 98141-8556', email:'', doc:'',
+    cidade:'São Paulo', uf:'SP', pagamento:'Pix, cartão ou dinheiro', validade:7, prazo:'',
+    condicoes:[
+      'Produtos e equipamentos de rotina por conta da EL Piscinas nos planos mensais.',
+      'Limpeza do filtro inclusa. Troca de areia e manutenção do filtro são orçadas à parte, quando necessárias.',
+      'Planos mensais sem fidelidade: cancelamento com 30 dias de aviso.',
+      'Recuperação de piscina verde: se a água não clarear na primeira visita, voltamos sem cobrar.'
+    ].join('\n')
+  };
+
+  function seedCatalog(){
+    function it(nome, tipo, un, rec){ return { id:uid(), nome:nome, tipo:tipo, un:un, preco:0, rec:!!rec }; }
+    return [
+      it('Visita avulsa (limpeza e tratamento)', 'servico', 'visita', false),
+      it('Plano quinzenal — 2 visitas por mês', 'servico', 'mês', true),
+      it('Plano semanal — 4 visitas por mês', 'servico', 'mês', true),
+      it('Recuperação de piscina verde', 'servico', 'serviço', false),
+      it('Troca de areia do filtro', 'servico', 'serviço', false),
+      it('Desconto', 'servico', 'un', false),
+      it('Cloro granulado', 'material', 'kg', false),
+      it('Cloro em pastilha', 'material', 'kg', false),
+      it('Algicida', 'material', 'L', false),
+      it('Clarificante', 'material', 'L', false),
+      it('Redutor de pH', 'material', 'kg', false),
+      it('Elevador de pH (barrilha)', 'material', 'kg', false),
+      it('Elevador de alcalinidade', 'material', 'kg', false),
+      it('Areia para filtro', 'material', 'saco', false)
+    ];
+  }
+
+  var settings = Object.assign({}, DEFAULT_SETTINGS, load(K.settings, {}));
+  var catalog = load(K.catalog, null); if(!Array.isArray(catalog) || !catalog.length) catalog = seedCatalog();
+  var history = load(K.history, []); if(!Array.isArray(history)) history = [];
+  var q = null;
+  var isExample = false;
+
+  /* ================= formatação e leitura de números ================= */
+  var fmtBRL   = new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' });
+  var fmtMoney = new Intl.NumberFormat('pt-BR', { minimumFractionDigits:2, maximumFractionDigits:2 });
+  var fmtNum   = new Intl.NumberFormat('pt-BR');
+  var fmtDim   = new Intl.NumberFormat('pt-BR', { maximumFractionDigits:2 });
+
+  function round2(n){ return Math.round(n * 100) / 100; }
+  function parseMoney(s){
+    s = String(s == null ? '' : s).replace(/[R$\s]/g, '');
+    if(!s) return 0;
+    var neg = false;
+    if(s.charAt(0) === '-'){ neg = true; s = s.slice(1); }
+    if(s.indexOf(',') > -1){ s = s.replace(/\./g, '').replace(',', '.'); }
+    else if(/^\d{1,3}(\.\d{3})+$/.test(s)){ s = s.replace(/\./g, ''); }
+    var n = parseFloat(s);
+    if(!isFinite(n)) return 0;
+    return neg ? -n : n;
+  }
+  function parseDecimal(s){ var n = parseFloat(String(s == null ? '' : s).trim().replace(',', '.')); return isFinite(n) ? n : 0; }
+  function parseInteger(s){ var d = String(s == null ? '' : s).replace(/\D/g, ''); return d ? parseInt(d, 10) : 0; }
+  function digits(s){ return String(s == null ? '' : s).replace(/\D/g, ''); }
+  function fmtDate(d){ return d.toLocaleDateString('pt-BR'); }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]; }); }
+  function pad(n){ return String(n).padStart(4, '0'); }
+
+  var toastTimer = null;
+  function toast(msg){
+    var t = $('toast'); t.textContent = msg; t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.hidden = true; }, 3000);
+  }
+
+  /* ================= o orçamento em edição ================= */
+  function blankItem(){ return { uid:uid(), nome:'', qtd:1, un:'un', preco:0, rec:false }; }
+
+  function newQuote(){
+    return {
+      id:uid(), num:null, criado:Date.now(),
+      cliente:'', fone:'', email:'', end:'', bairro:'', cidade:settings.cidade, uf:settings.uf, doc:'',
+      litros:0, dims:'',
+      itens:[], pagamento:settings.pagamento, prazo:settings.prazo, validade:parseInt(settings.validade, 10) || 7,
+      condicoes:settings.condicoes, obs:''
+    };
+  }
+
+  function exampleQuote(){
+    var x = newQuote();
+    x.cliente = 'Maria Helena'; x.fone = '(11) 90000-0000'; x.end = 'Rua das Palmeiras, 120'; x.bairro = 'Vila Tramontano';
+    x.litros = 44800; x.dims = '8 × 4 × 1,4 m';
+    x.itens = [
+      { uid:uid(), nome:'Plano semanal — 4 visitas por mês', qtd:1, un:'mês', preco:480, rec:true },
+      { uid:uid(), nome:'Troca de areia do filtro', qtd:1, un:'serviço', preco:350, rec:false },
+      { uid:uid(), nome:'Algicida', qtd:2, un:'L', preco:32, rec:false }
+    ];
+    x.obs = 'Água com leve turbidez; a alcalinidade é corrigida já na primeira visita.';
+    return x;
+  }
+
+  function lineTotal(it){ return round2((it.qtd || 0) * (it.preco || 0)); }
+  function totals(x){
+    var uni = 0, mes = 0, hasUni = false, hasMes = false;
+    x.itens.forEach(function(it){
+      var t = lineTotal(it);
+      if(it.rec){ mes += t; if(it.preco) hasMes = true; }
+      else { uni += t; if(it.preco) hasUni = true; }
+    });
+    return { uni:round2(uni), mes:round2(mes), hasUni:hasUni, hasMes:hasMes };
+  }
+  function piscinaTxt(x){
+    if(!x.litros) return '';
+    return '≈ ' + fmtNum.format(x.litros) + ' litros' + (x.dims ? ' (' + x.dims + ')' : '');
+  }
+  function enderecoTxt(x){
+    var partes = [];
+    if(x.end) partes.push(x.end);
+    var loc = [x.bairro, [x.cidade, x.uf].filter(Boolean).join('/')].filter(Boolean).join(' — ');
+    if(loc) partes.push(loc);
+    return partes.join(', ');
+  }
+  function validoAte(x){
+    var base = new Date(x.criado || Date.now());
+    base.setDate(base.getDate() + (x.validade || 7));
+    return base;
+  }
+
+  /* ================= texto do WhatsApp ================= */
+  function waText(x){
+    var L = [], t = totals(x), ate = validoAte(x);
+    L.push('*Orçamento' + (x.num ? ' nº ' + pad(x.num) : '') + ' — ' + settings.empresa + '*');
+    L.push('Emitido em ' + fmtDate(new Date(x.criado)) + ' · válido até ' + fmtDate(ate));
+    L.push('');
+    if(x.cliente) L.push('*Cliente:* ' + x.cliente);
+    var end = enderecoTxt(x); if(end) L.push('*Endereço:* ' + end);
+    var p = piscinaTxt(x); if(p) L.push('*Piscina:* ' + p);
+    L.push('');
+    L.push('*Itens:*');
+    if(!x.itens.length) L.push('• (nenhum item)');
+    x.itens.forEach(function(it){
+      var tot = lineTotal(it), qtd = it.qtd || 0;
+      var linha = '• ' + (it.nome || 'Item');
+      if(it.preco){
+        linha += ' — ' + (qtd !== 1 ? fmtDim.format(qtd) + (it.un ? ' ' + it.un : '') + ' × ' + fmtBRL.format(it.preco) + ' = ' : '') + fmtBRL.format(tot);
+      } else { linha += ' — a combinar'; }
+      if(it.rec && it.preco) linha += ' (mensal)';
+      L.push(linha);
+    });
+    L.push('');
+    if(t.hasMes) L.push('*Mensalidade:* ' + fmtBRL.format(t.mes));
+    if(t.hasUni) L.push('*' + (t.hasMes ? 'Total único' : 'Total') + ':* ' + fmtBRL.format(t.uni));
+    if(!t.hasMes && !t.hasUni) L.push('*Total:* a definir');
+    if(x.pagamento) L.push('*Pagamento:* ' + x.pagamento);
+    if(x.prazo) L.push('*Início:* ' + x.prazo);
+    var conds = String(x.condicoes || '').split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
+    if(conds.length){ L.push(''); L.push('*Condições:*'); conds.forEach(function(c){ L.push('• ' + c); }); }
+    if(x.obs){ L.push(''); L.push('*Observações:* ' + x.obs); }
+    L.push('');
+    L.push('Qualquer dúvida é só responder aqui. Obrigado pela confiança!' + (settings.nome ? ' — ' + settings.nome + ', ' + settings.empresa : ''));
+    return L.join('\n');
+  }
+
+  /* ================= desenho da folha ================= */
+  function campo(rot, val, wide){
+    if(!val) return '';
+    return '<div class="f' + (wide ? ' wide' : '') + '"><dt>' + esc(rot) + '</dt><dd>' + esc(val) + '</dd></div>';
+  }
+
+  function renderSheet(){
+    var t = totals(q), ate = validoAte(q);
+    var partes = String(settings.empresa || 'EL Piscinas').trim().split(/\s+/);
+    $('s-wm').textContent = partes[0] || '';
+    $('s-wm-sub').textContent = partes.slice(1).join(' ');
+    $('s-num').textContent = q.num ? 'Orçamento nº ' + pad(q.num) : 'Orçamento';
+    $('s-emit').textContent = 'Emitido em ' + fmtDate(new Date(q.criado));
+    $('s-valid').textContent = 'Válido até ' + fmtDate(ate);
+
+    $('s-grid').innerHTML =
+      '<div class="f wide"><dt>Cliente</dt><dd>' + esc(q.cliente || '—') + '</dd></div>' +
+      campo('Telefone', q.fone) + campo('E-mail', q.email) +
+      campo('Endereço', q.end, true) + campo('Bairro', q.bairro) +
+      campo('Cidade', [q.cidade, q.uf].filter(Boolean).join(' / ')) +
+      campo('CPF / CNPJ', q.doc) + campo('Piscina', piscinaTxt(q), true) +
+      campo('Pagamento', q.pagamento) + campo('Início', q.prazo);
+
+    $('s-itens').innerHTML = q.itens.length ? q.itens.map(function(it){
+      var tot = lineTotal(it), qtd = it.qtd || 0;
+      var sub = it.preco ? fmtDim.format(qtd) + (it.un ? ' ' + esc(it.un) : '') + ' × ' + fmtBRL.format(it.preco) + (it.rec ? ' · cobrança mensal' : '') : '';
+      return '<div class="it"><span class="d">' + esc(it.nome || 'Item sem nome') + '</span>' +
+        (it.preco ? '<span class="t">' + fmtBRL.format(tot) + '</span>' : '<span class="t pend">a combinar</span>') +
+        (sub ? '<span class="s">' + sub + '</span>' : '') + '</div>';
+    }).join('') : '<p class="empty">Nenhum item ainda. Adicione serviços e materiais ao lado.</p>';
+
+    var box = '';
+    if(t.hasMes) box += '<div><div class="lb">Mensalidade</div><div class="vl">' + fmtBRL.format(t.mes) + '<small>por mês</small></div></div>';
+    if(t.hasUni) box += '<div><div class="lb">' + (t.hasMes ? 'Total único' : 'Total') + '</div><div class="vl">' + fmtBRL.format(t.uni) + '</div></div>';
+    if(!t.hasMes && !t.hasUni) box = '<div><div class="lb">Total</div><div class="vl pending">A definir</div></div>';
+    $('s-tot').innerHTML = box;
+
+    var conds = String(q.condicoes || '').split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
+    $('s-cond').innerHTML = conds.map(function(c){ return '<li><span>' + esc(c) + '</span></li>'; }).join('') +
+      '<li><span>Este orçamento vale por ' + q.validade + ' dias, até ' + fmtDate(ate) + '.</span></li>';
+    $('s-obs').textContent = q.obs || '';
+    $('s-obs').hidden = !q.obs;
+
+    var contato = [];
+    if(settings.nome) contato.push(settings.nome);
+    if(settings.fone) contato.push('WhatsApp ' + settings.fone);
+    if(settings.email) contato.push(settings.email);
+    $('s-foot').innerHTML = '<span>' + esc(contato.join(' · ')) + '</span><span>' +
+      esc([settings.cidade, settings.doc ? 'CPF/CNPJ ' + settings.doc : ''].filter(Boolean).join(' · ')) + '</span>';
+
+    $('stamp').hidden = !isExample;
+    $('exemplo').hidden = !isExample;
+    $('watext').textContent = waText(q);
+
+    var pronto = !isExample && (t.hasMes || t.hasUni);
+    ['btn-wa', 'btn-copy', 'btn-print'].forEach(function(id){ $(id).disabled = !pronto; });
+    $('btn-save').disabled = isExample;
+    $('dica').textContent = isExample
+      ? 'Este é um exemplo. Toque em qualquer campo ou em “Novo orçamento” para começar o seu.'
+      : (pronto ? 'Pronto. Confira a folha e envie.' : 'Adicione ao menos um item com valor para liberar os botões.');
+  }
+
+  function refresh(){
+    q.itens.forEach(function(it){
+      var out = $('it-' + it.uid + '-t');
+      if(out) out.textContent = it.preco ? fmtBRL.format(lineTotal(it)) : '—';
+    });
+    renderSheet();
+    if(!isExample) save(K.draft, q);
+  }
+
+  /* ================= linhas de itens (editor) ================= */
+  function renderItens(){
+    var box = $('itens'); box.innerHTML = '';
+    q.itens.forEach(function(it){ box.appendChild(lineEl(it)); });
+    var semValor = catalog.every(function(c){ return !c.preco; });
+    $('aviso-cat').hidden = !semValor;
+  }
+
+  function lineEl(it){
+    var p = 'it-' + it.uid + '-';
+    var row = document.createElement('div'); row.className = 'line';
+    row.innerHTML =
+      '<div class="l-top"><input id="' + p + 'd" class="l-desc" type="text" placeholder="Descrição do serviço ou material" aria-label="Descrição">' +
+      '<button type="button" id="' + p + 'x" class="l-x" aria-label="Remover item">×</button></div>' +
+      '<div class="l-nums">' +
+        '<input id="' + p + 'q" type="text" inputmode="decimal" aria-label="Quantidade">' +
+        '<input id="' + p + 'u" type="text" list="unidades" aria-label="Unidade" placeholder="un">' +
+        '<div class="money"><span>R$</span><input id="' + p + 'p" type="text" inputmode="decimal" placeholder="0,00" aria-label="Valor unitário"></div>' +
+        '<output id="' + p + 't" class="l-total"></output>' +
+      '</div>' +
+      '<label class="l-rec" for="' + p + 'r"><input id="' + p + 'r" type="checkbox"> Cobrança mensal (todo mês)</label>';
+
+    var d = row.querySelector('#' + p + 'd'), qt = row.querySelector('#' + p + 'q'), un = row.querySelector('#' + p + 'u'),
+        pr = row.querySelector('#' + p + 'p'), rc = row.querySelector('#' + p + 'r'), x = row.querySelector('#' + p + 'x');
+    d.value = it.nome; qt.value = fmtDim.format(it.qtd || 0); un.value = it.un || '';
+    pr.value = it.preco ? fmtMoney.format(it.preco) : ''; rc.checked = !!it.rec;
+
+    d.addEventListener('input', function(){ it.nome = d.value; refresh(); });
+    qt.addEventListener('input', function(){ it.qtd = parseDecimal(qt.value); refresh(); });
+    qt.addEventListener('blur', function(){ qt.value = fmtDim.format(it.qtd || 0); });
+    un.addEventListener('input', function(){ it.un = un.value; refresh(); });
+    pr.addEventListener('input', function(){ it.preco = parseMoney(pr.value); refresh(); });
+    pr.addEventListener('blur', function(){ pr.value = it.preco ? fmtMoney.format(it.preco) : ''; });
+    rc.addEventListener('change', function(){ it.rec = rc.checked; refresh(); });
+    x.addEventListener('click', function(){
+      q.itens = q.itens.filter(function(i){ return i !== it; });
+      renderItens(); refresh();
+    });
+    return row;
+  }
+
+  function buildAddSelect(){
+    var sel = $('add-cat');
+    var srv = catalog.filter(function(c){ return c.tipo === 'servico'; });
+    var mat = catalog.filter(function(c){ return c.tipo !== 'servico'; });
+    function opts(list){
+      return list.map(function(c){
+        var pr = c.preco ? ' — ' + fmtBRL.format(c.preco) + (c.un ? '/' + c.un : '') : '';
+        return '<option value="' + esc(c.id) + '">' + esc(c.nome || 'Sem nome') + esc(pr) + '</option>';
+      }).join('');
+    }
+    sel.innerHTML = '<option value="">Adicionar do catálogo…</option>' +
+      (srv.length ? '<optgroup label="Serviços">' + opts(srv) + '</optgroup>' : '') +
+      (mat.length ? '<optgroup label="Materiais">' + opts(mat) + '</optgroup>' : '');
+  }
+
+  /* ================= formulário <-> orçamento ================= */
+  var MAP = { 'c-nome':'cliente', 'c-fone':'fone', 'c-email':'email', 'c-end':'end', 'c-bairro':'bairro', 'c-cidade':'cidade', 'c-uf':'uf', 'c-doc':'doc',
+              'q-pag':'pagamento', 'q-prazo':'prazo', 'q-cond':'condicoes', 'q-obs':'obs' };
+
+  function fillForm(){
+    Object.keys(MAP).forEach(function(id){ $(id).value = q[MAP[id]] || ''; });
+    $('q-validade').value = String(q.validade || 7);
+    $('p-volume').value = q.litros ? fmtNum.format(q.litros) : '';
+    $('p-comp').value = ''; $('p-larg').value = ''; $('p-prof').value = '';
+    renderItens(); buildAddSelect(); refresh();
+  }
+
+  Object.keys(MAP).forEach(function(id){
+    $(id).addEventListener('input', function(){ q[MAP[id]] = $(id).value; refresh(); });
+  });
+  $('c-uf').addEventListener('input', function(){ this.value = this.value.toUpperCase(); q.uf = this.value; refresh(); });
+  $('q-validade').addEventListener('change', function(){ q.validade = parseInt(this.value, 10) || 7; refresh(); });
+
+  $('p-volume').addEventListener('input', function(){ q.litros = parseInteger(this.value); q.dims = ''; refresh(); });
+  $('p-volume').addEventListener('blur', function(){ this.value = q.litros ? fmtNum.format(q.litros) : ''; });
+  ['p-comp', 'p-larg', 'p-prof'].forEach(function(id){
+    $(id).addEventListener('input', function(){
+      var c = parseDecimal($('p-comp').value), l = parseDecimal($('p-larg').value), p = parseDecimal($('p-prof').value);
+      if(c > 0 && l > 0 && p > 0){
+        q.litros = Math.round(c * l * p * 10) * 100;
+        q.dims = fmtDim.format(c) + ' × ' + fmtDim.format(l) + ' × ' + fmtDim.format(p) + ' m';
+        $('p-volume').value = fmtNum.format(q.litros);
+      } else { q.dims = ''; }
+      refresh();
+    });
+  });
+
+  $('add-cat').addEventListener('change', function(){
+    var c = catalog.filter(function(x){ return x.id === $('add-cat').value; })[0];
+    if(!c) return;
+    q.itens.push({ uid:uid(), nome:c.nome, qtd:1, un:c.un || '', preco:c.preco || 0, rec:!!c.rec });
+    renderItens(); refresh();
+    $('add-cat').value = '';
+  });
+  $('add-blank').addEventListener('click', function(){
+    q.itens.push(blankItem()); renderItens(); refresh();
+    var last = q.itens[q.itens.length - 1]; var el = $('it-' + last.uid + '-d'); if(el) el.focus();
+  });
+
+  /* ================= exemplo, novo orçamento, histórico ================= */
+  function startFresh(moveFocus){
+    if(!isExample) autoArquivar();
+    isExample = false; q = newQuote();
+    fillForm();
+    if(moveFocus) $('c-nome').focus();
+  }
+  function autoArquivar(){
+    if(q && (q.cliente || q.itens.length)) commit(true);
+  }
+  $('f').addEventListener('focusin', function(){ if(isExample) startFresh(false); });
+  $('novo').addEventListener('click', function(){ startFresh(true); });
+  $('btn-novo').addEventListener('click', function(){ startFresh(true); });
+
+  function nextNum(){ var n = (load(K.counter, 0) || 0) + 1; save(K.counter, n); return n; }
+  function commit(silent){
+    if(!q.num && !silent) q.num = nextNum();
+    q.savedAt = Date.now();
+    var snap = clone(q), i = -1;
+    history.forEach(function(h, k){ if(h.id === q.id) i = k; });
+    if(i > -1) history[i] = snap; else history.unshift(snap);
+    if(history.length > 60) history.length = 60;
+    save(K.history, history); save(K.draft, q);
+    if(!silent) renderSheet();
+  }
+
+  /* ================= ações ================= */
+  $('btn-wa').addEventListener('click', function(){
+    commit(false);
+    var tel = digits(q.fone);
+    if(tel && tel.length <= 11) tel = '55' + tel;
+    window.open('https://wa.me/' + tel + '?text=' + encodeURIComponent(waText(q)), '_blank', 'noopener');
+  });
+
+  function copiar(t){
+    function fim(){ toast('Texto copiado. É só colar no WhatsApp.'); }
+    function alternativa(){
+      var ta = document.createElement('textarea');
+      ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); fim(); }
+      catch(e){ toast('Não consegui copiar. Abra “Ver o texto que vai para o WhatsApp” e copie de lá.'); }
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(fim, alternativa); }
+    else { alternativa(); }
+  }
+  $('btn-copy').addEventListener('click', function(){ commit(false); copiar(waText(q)); });
+  $('btn-print').addEventListener('click', function(){
+    commit(false);
+    try{ window.print(); }catch(e){ toast('Use Ctrl+P (ou o menu do navegador) para imprimir.'); }
+  });
+  $('btn-save').addEventListener('click', function(){ commit(false); toast('Salvo no histórico.'); });
+
+  /* ================= abas ================= */
+  var VIEWS = ['orc', 'cat', 'hist', 'cfg'];
+  function show(v){
+    VIEWS.forEach(function(n){
+      $('v-' + n).hidden = (n !== v);
+      $('t-' + n).setAttribute('aria-current', n === v ? 'page' : 'false');
+    });
+    $('jump').hidden = (v !== 'orc');
+    if(v === 'cat') renderCat();
+    if(v === 'hist') renderHist();
+    if(v === 'orc'){ buildAddSelect(); renderItens(); }
+    try{ window.scrollTo(0, 0); }catch(e){}
+  }
+  VIEWS.forEach(function(v){ $('t-' + v).addEventListener('click', function(){ show(v); }); });
+
+  /* ================= catálogo ================= */
+  function saveCatalog(){ save(K.catalog, catalog); buildAddSelect(); var s = catalog.every(function(c){ return !c.preco; }); $('aviso-cat').hidden = !s; }
+
+  function renderCat(){
+    var box = $('cat-list'); box.innerHTML = '';
+    [['servico', 'Serviços'], ['material', 'Materiais']].forEach(function(g){
+      var grp = document.createElement('div'); grp.className = 'cat-group';
+      grp.innerHTML = '<h3>' + g[1] + '</h3>';
+      catalog.filter(function(c){ return (c.tipo === 'servico') === (g[0] === 'servico'); }).forEach(function(c){ grp.appendChild(catRow(c)); });
+      box.appendChild(grp);
+    });
+  }
+
+  function catRow(c){
+    var p = 'cat-' + c.id + '-';
+    var row = document.createElement('div'); row.className = 'cat-row';
+    row.innerHTML =
+      '<input id="' + p + 'n" type="text" placeholder="Nome do item" aria-label="Nome do item">' +
+      '<button type="button" id="' + p + 'x" class="l-x" aria-label="Remover do catálogo">×</button>' +
+      '<div class="r2">' +
+        '<input id="' + p + 'u" type="text" list="unidades" placeholder="un" aria-label="Unidade">' +
+        '<div class="money"><span>R$</span><input id="' + p + 'p" type="text" inputmode="decimal" placeholder="0,00" aria-label="Valor"></div>' +
+        '<label class="l-rec" for="' + p + 'r"><input id="' + p + 'r" type="checkbox"> Mensal</label>' +
+      '</div>';
+    var n = row.querySelector('#' + p + 'n'), u = row.querySelector('#' + p + 'u'), pr = row.querySelector('#' + p + 'p'),
+        r = row.querySelector('#' + p + 'r'), x = row.querySelector('#' + p + 'x');
+    n.value = c.nome; u.value = c.un || ''; pr.value = c.preco ? fmtMoney.format(c.preco) : ''; r.checked = !!c.rec;
+    n.addEventListener('input', function(){ c.nome = n.value; saveCatalog(); });
+    u.addEventListener('input', function(){ c.un = u.value; saveCatalog(); });
+    pr.addEventListener('input', function(){ c.preco = parseMoney(pr.value); saveCatalog(); });
+    pr.addEventListener('blur', function(){ pr.value = c.preco ? fmtMoney.format(c.preco) : ''; });
+    r.addEventListener('change', function(){ c.rec = r.checked; saveCatalog(); });
+    x.addEventListener('click', function(){
+      catalog = catalog.filter(function(i){ return i !== c; });
+      saveCatalog(); renderCat();
+    });
+    return row;
+  }
+
+  function addCat(tipo){
+    var c = { id:uid(), nome:'', tipo:tipo, un:tipo === 'servico' ? 'serviço' : 'un', preco:0, rec:false };
+    catalog.push(c); saveCatalog(); renderCat();
+    var el = $('cat-' + c.id + '-n'); if(el) el.focus();
+  }
+  $('cat-add-srv').addEventListener('click', function(){ addCat('servico'); });
+  $('cat-add-mat').addEventListener('click', function(){ addCat('material'); });
+
+  /* ================= histórico ================= */
+  function renderHist(){
+    var box = $('hist-list'); box.innerHTML = '';
+    if(!history.length){ box.innerHTML = '<p class="empty" style="margin-top:1rem">Ainda não há orçamentos salvos.</p>'; return; }
+    history.forEach(function(h){
+      var t = totals(h);
+      var total = t.hasMes && t.hasUni ? fmtBRL.format(t.mes) + '/mês + ' + fmtBRL.format(t.uni)
+                : t.hasMes ? fmtBRL.format(t.mes) + '/mês' : t.hasUni ? fmtBRL.format(t.uni) : 'sem valor';
+      var el = document.createElement('div'); el.className = 'hist-item';
+      el.innerHTML = '<div><div class="who">' + (h.num ? 'Nº ' + pad(h.num) + ' · ' : 'Rascunho · ') + esc(h.cliente || 'Sem nome') + '</div>' +
+        '<div class="meta">' + fmtDate(new Date(h.criado)) + ' · ' + esc(total) + '</div></div>' +
+        '<div class="btns"><button type="button" class="btn sm" data-a="abrir">Abrir</button>' +
+        '<button type="button" class="btn sm" data-a="dup">Duplicar</button>' +
+        '<button type="button" class="btn sm plain" data-a="del">Excluir</button></div>';
+      el.querySelector('[data-a=abrir]').addEventListener('click', function(){
+        if(!isExample) autoArquivar();
+        isExample = false; q = clone(h); fillForm(); show('orc');
+      });
+      el.querySelector('[data-a=dup]').addEventListener('click', function(){
+        if(!isExample) autoArquivar();
+        isExample = false; q = clone(h); q.id = uid(); q.num = null; q.criado = Date.now(); q.savedAt = null;
+        q.itens.forEach(function(i){ i.uid = uid(); });
+        fillForm(); show('orc'); toast('Cópia criada. Ajuste o que precisar.');
+      });
+      el.querySelector('[data-a=del]').addEventListener('click', function(){
+        history = history.filter(function(i){ return i.id !== h.id; });
+        save(K.history, history); renderHist();
+      });
+      box.appendChild(el);
+    });
+  }
+
+  /* ================= meus dados ================= */
+  var SMAP = { 's-empresa':'empresa', 's-nome':'nome', 's-fone':'fone', 's-email':'email', 's-doc':'doc', 's-cidade':'cidade', 's-uf':'uf',
+               's-pag':'pagamento', 's-prazo':'prazo', 's-cond':'condicoes' };
+  function fillSettings(){
+    Object.keys(SMAP).forEach(function(id){ $(id).value = settings[SMAP[id]] || ''; });
+    $('s-validade').value = String(settings.validade || 7);
+  }
+  Object.keys(SMAP).forEach(function(id){
+    $(id).addEventListener('input', function(){ settings[SMAP[id]] = $(id).value; save(K.settings, settings); if(q) renderSheet(); });
+  });
+  $('s-uf').addEventListener('input', function(){ this.value = this.value.toUpperCase(); settings.uf = this.value; save(K.settings, settings); });
+  $('s-validade').addEventListener('change', function(){ settings.validade = parseInt(this.value, 10) || 7; save(K.settings, settings); });
+
+  /* ================= backup ================= */
+  $('b-export').addEventListener('click', function(){
+    var data = { versao:2, exportado:new Date().toISOString(), settings:settings, catalog:catalog, history:history, counter:load(K.counter, 0) };
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
+    var a = document.createElement('a'); var d = new Date();
+    a.href = URL.createObjectURL(blob);
+    a.download = 'el-piscinas-backup-' + d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
+    toast('Backup baixado.');
+  });
+  $('b-import').addEventListener('change', function(){
+    var f = this.files && this.files[0]; if(!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){
+      try{
+        var d = JSON.parse(rd.result);
+        if(!d || !Array.isArray(d.catalog) || typeof d.settings !== 'object') throw new Error('formato');
+        settings = Object.assign({}, DEFAULT_SETTINGS, d.settings);
+        catalog = d.catalog; history = Array.isArray(d.history) ? d.history : [];
+        save(K.settings, settings); save(K.catalog, catalog); save(K.history, history); save(K.counter, d.counter || 0);
+        fillSettings(); buildAddSelect(); renderSheet();
+        toast('Backup restaurado.');
+      }catch(e){ toast('Esse arquivo não parece um backup do EL Piscinas.'); }
+    };
+    rd.readAsText(f);
+    this.value = '';
+  });
+
+  /* ================= início ================= */
+  fillSettings();
+  var draft = load(K.draft, null);
+  if(draft && draft.itens){ q = draft; isExample = false; }
+  else { q = exampleQuote(); isExample = true; }
+  show('orc');
+  fillForm();
+})();
+</script>
+</body>
+</html>
