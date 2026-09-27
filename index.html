@@ -277,6 +277,14 @@
 
   @media (prefers-reduced-motion: reduce){ *{transition:none !important} }
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17703851599"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-17703851599');
+</script>
 </head>
 <body>
 
@@ -537,7 +545,15 @@
     var WHATS = "5511981418556";
     var MSG = "Olá! Vim pelo site e quero um orçamento para limpeza de piscina.";
     var base = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(MSG);
-    document.querySelectorAll(".js-wa").forEach(function(a){ a.href = base; });
+    var fireWaConversion = function(){
+      if (typeof gtag === "function") {
+        gtag("event", "conversion", { send_to: "AW-17703851599/ayI7CKCr74cdEM-s7flB" });
+      }
+    };
+    document.querySelectorAll(".js-wa").forEach(function(a){
+      a.href = base;
+      a.addEventListener("click", fireWaConversion);
+    });
     document.getElementById("y").textContent = new Date().getFullYear();
     var bar = document.getElementById("bar");
     var waFloat = document.getElementById("waFloat");
@@ -555,6 +571,7 @@
       var t = "Olá! Quero um orçamento para limpeza de piscina.\n\n" +
         "Nome: " + g("nome") + "\nWhatsApp: " + g("fone") + "\nBairro: " + g("bairro") +
         "\nTamanho: " + g("tam") + "\nSituação: " + (g("msg") || "—");
+      fireWaConversion();
       window.open("https://wa.me/" + WHATS + "?text=" + encodeURIComponent(t), "_blank", "noopener");
     });
   })();
