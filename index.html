@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111512">
-<meta name="description" content="Limpeza, tratamento e manutencao de piscinas residenciais no Morumbi e regiao, em Sao Paulo. Plano mensal ou visita avulsa. Orcamento gratuito pelo WhatsApp.">
+<meta name="description" content="Limpeza, tratamento e manutenção de piscinas residenciais no Morumbi e região, em São Paulo. Plano mensal ou visita avulsa. Orçamento gratuito pelo WhatsApp.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
-<meta property="og:title" content="EL Piscinas - Limpeza e manutencao no Morumbi">
-<meta property="og:description" content="Agua limpa nao e sorte. E rotina. Orcamento gratuito pelo WhatsApp.">
-<meta property="og:image" content="img/piscina-marmore-01.jpg">
+<meta property="og:url" content="https://novapicks.website/limpeza-piscina-morumbi/">
+<meta property="og:title" content="EL Piscinas - Limpeza e manutenção no Morumbi">
+<meta property="og:description" content="Água limpa não é sorte. É rotina. Orçamento gratuito pelo WhatsApp.">
+<meta property="og:image" content="https://novapicks.website/limpeza-piscina-morumbi/img/piscina-marmore-01.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111512'/%3E%3Cpath d='M4 20c4-3 8 3 12 0s8-3 12 0' stroke='%238FBFBF' stroke-width='2.4' fill='none'/%3E%3C/svg%3E">
 <title>Limpeza de Piscina no Morumbi | EL Piscinas</title>
@@ -255,7 +256,10 @@
   /* barra fixa mobile */
   .dock{position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--paper);border-top:1px solid var(--line);padding:.7rem clamp(20px,5vw,64px) calc(.7rem + env(safe-area-inset-bottom));display:none;gap:1rem;align-items:center;justify-content:space-between}
   .dock .t{font-size:.82rem;color:var(--ink-2);line-height:1.3}
+  .dock .dk{display:flex;gap:.6rem}
   .dock .cta{padding:.8rem 1.2rem;font-size:.85rem}
+  .dock .cta.ghost{background:transparent;color:var(--stone-900);box-shadow:inset 0 0 0 1px var(--stone-900)}
+  .dock .cta.ghost:hover{background:var(--limestone)}
   @media (max-width:900px){ .dock{display:flex} body{padding-bottom:76px} }
 
   /* botão flutuante — só desktop; no mobile a barra .dock já cumpre essa função.
@@ -319,7 +323,7 @@
       </div>
       <div class="waterline">
         <div><span class="n">Morumbi</span><span class="l">e bairros vizinhos, com equipe própria</span></div>
-        <div><span class="n">24 h</span><span class="l">para responder e agendar a visita técnica</span></div>
+        <div><span class="n">Em 24 h</span><span class="l">resposta e agendamento da visita técnica, de segunda a sábado</span></div>
         <div><span class="n">Sem taxa</span><span class="l">a visita de diagnóstico e o orçamento são gratuitos</span></div>
       </div>
     </div>
@@ -485,7 +489,7 @@
           <h2 style="font-size:clamp(2rem,4.6vw,3.4rem);margin-top:1rem">Manda uma foto da sua piscina</h2>
           <p class="lede" style="margin-top:1.4rem">É o suficiente pra gente já dar uma primeira leitura e agendar a visita. Preencha ao lado e a conversa abre no WhatsApp com seus dados prontos.</p>
           <dl class="facts">
-            <div><dt>WhatsApp</dt><dd>(11) 98141-8556</dd></div>
+            <div><dt>WhatsApp e telefone</dt><dd><a href="tel:+5511981418556" style="border-bottom:1px solid rgba(251,251,249,.35)">(11) 98141-8556</a></dd></div>
             <div><dt>Atendimento</dt><dd>Segunda a sábado, 8h às 18h</dd></div>
             <div><dt>Área</dt><dd>Morumbi e região — São Paulo</dd></div>
           </dl>
@@ -524,14 +528,18 @@
         <a href="#padrao">Trabalhos</a>
         <a href="#planos">Planos</a>
         <a class="js-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="tel:+5511981418556">Ligar</a>
       </div>
       <div class="cr">© <span id="y"></span> EL Piscinas — Morumbi, São Paulo</div>
     </div>
   </footer>
 
   <div class="dock">
-    <span class="t">Orçamento gratuito<br>e sem compromisso</span>
-    <a class="cta dark js-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+    <span class="t">Orçamento<br>gratuito</span>
+    <div class="dk">
+      <a class="cta ghost" href="tel:+5511981418556">Ligar</a>
+      <a class="cta dark js-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
   </div>
 
   <a class="wa-float js-wa" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
@@ -610,7 +618,7 @@
   })();
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"EL Piscinas","description":"Limpeza, tratamento e manutencao de piscinas residenciais.","areaServed":"Morumbi e regiao, Sao Paulo","telephone":"+5511981418556","priceRange":"$$","openingHours":"Mo-Sa 08:00-18:00","url":"https://novapicks.website/limpeza-piscina-morumbi/"}
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"EL Piscinas","description":"Limpeza, tratamento e manutenção de piscinas residenciais.","areaServed":"Morumbi e região, São Paulo","telephone":"+5511981418556","priceRange":"$$","openingHours":"Mo-Sa 08:00-18:00","url":"https://novapicks.website/limpeza-piscina-morumbi/"}
 </script>
 </body>
 </html>
