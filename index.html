@@ -553,9 +553,13 @@
     var WHATS = "5511981418556";
     var MSG = "Olá! Vim pelo site e quero um orçamento para limpeza de piscina.";
     var base = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(MSG);
-    var fireWaConversion = function(){
+    /* três conversões separadas no Google Ads (categoria Contato) */
+    var CONV_WA   = "AW-17703851599/ayI7CKCr74cdEM-s7flB";  /* Clique WhatsApp   */
+    var CONV_FORM = "AW-17703851599/5UUKCJ-SipgdEM-s7flB";  /* Formulário enviado */
+    var CONV_TEL  = "AW-17703851599/MSrcCKKSipgdEM-s7flB";  /* Clique Ligar      */
+    var fireConv = function(label){
       if (typeof gtag === "function") {
-        gtag("event", "conversion", { send_to: "AW-17703851599/ayI7CKCr74cdEM-s7flB" });
+        gtag("event", "conversion", { send_to: label });
       }
     };
     /* código de referência: dia/mês-hora/minuto-botão (T topo, P planos, R rodapé,
@@ -574,8 +578,11 @@
       a.href = waUrl(o);
       a.addEventListener("click", function(){
         a.href = waUrl(o);
-        fireWaConversion();
+        fireConv(CONV_WA);
       });
+    });
+    document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
+      a.addEventListener("click", function(){ fireConv(CONV_TEL); });
     });
     document.getElementById("y").textContent = new Date().getFullYear();
     var bar = document.getElementById("bar");
@@ -594,7 +601,7 @@
       var t = "Olá! Quero um orçamento para limpeza de piscina.\n\n" +
         "Nome: " + g("nome") + "\nWhatsApp: " + g("fone") + "\nBairro: " + g("bairro") +
         "\nTamanho: " + g("tam") + "\nSituação: " + (g("msg") || "—") + "\nRef: " + mkRef("C");
-      fireWaConversion();
+      fireConv(CONV_FORM);
       window.open("https://wa.me/" + WHATS + "?text=" + encodeURIComponent(t), "_blank", "noopener");
     });
   })();
