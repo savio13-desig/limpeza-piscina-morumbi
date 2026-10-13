@@ -1,7 +1,7 @@
 # Leads do formulário na planilha do Google
 
 1. No Google Drive da conta que vai ser dona dos dados (a do Elton), crie uma planilha chamada **EL Piscinas — Leads**.
-2. Na planilha: **Extensões > Apps Script**. Apague o código que vier e cole o conteúdo de `Code.gs`. Salve.
+2. Abra o Apps Script (em `script.google.com`, na mesma conta) e crie um projeto. Apague o código que vier e cole o conteúdo de `Code.gs`. Troque `COLE_AQUI_O_ID_DA_PLANILHA` pelo trecho do endereço da planilha entre `/d/` e `/edit`, e `COLE_AQUI_O_EMAIL_DE_AVISO` pelo e-mail que vai receber o aviso de cada lead. Salve.
 3. **Implantar > Nova implantação > App da Web**:
    - Executar como: **eu**
    - Quem pode acessar: **Qualquer pessoa**
