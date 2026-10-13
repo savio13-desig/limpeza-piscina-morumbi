@@ -71,6 +71,8 @@
   .lede{max-width:34ch}
   .tag{font-size:.7rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
 
+  @media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth} }
+
   /* topo */
   .bar{position:fixed;inset:0 0 auto 0;z-index:60;border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
   .bar.on{background:rgba(17,21,18,.94);backdrop-filter:blur(8px);border-color:var(--line-dark)}
@@ -318,7 +320,7 @@
       <h1>Água limpa não é sorte. <em>É rotina.</em></h1>
       <p class="sub">Limpeza, tratamento e manutenção de piscinas residenciais no Morumbi e região. Plano mensal ou visita avulsa.</p>
       <div class="acts">
-        <a class="cta js-wa" data-o="T" href="#" target="_blank" rel="noopener">Pedir orçamento</a>
+        <a class="cta" href="#contato">Pedir orçamento</a>
         <a class="link" href="#planos">Ver planos e valores</a>
       </div>
       <div class="waterline">
