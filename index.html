@@ -510,8 +510,9 @@
             </select>
           </label>
           <label><span class="lb">Situação</span><textarea name="msg" placeholder="Água verde, obra recente, evento marcado…"></textarea></label>
+          <input type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <button type="submit" class="cta">Continuar no WhatsApp</button>
-          <p class="fine">Abrimos a conversa com a mensagem pronta. Nenhum dado fica guardado neste site.</p>
+          <p class="fine">Abrimos a conversa com a mensagem pronta. Guardamos seu nome, WhatsApp e bairro só para responder ao seu orçamento, e não compartilhamos com ninguém.</p>
         </form>
       </div>
     </div>
@@ -557,6 +558,9 @@
     var CONV_WA   = "AW-17703851599/ayI7CKCr74cdEM-s7flB";  /* Clique WhatsApp   */
     var CONV_FORM = "AW-17703851599/5UUKCJ-SipgdEM-s7flB";  /* Formulário enviado */
     var CONV_TEL  = "AW-17703851599/MSrcCKKSipgdEM-s7flB";  /* Clique Ligar      */
+    /* endereço do Apps Script que grava os leads na planilha (ver leads-planilha/).
+       Vazio = não envia nada. */
+    var LEADS_URL = "";
     var fireConv = function(label){
       if (typeof gtag === "function") {
         gtag("event", "conversion", { send_to: label });
@@ -598,9 +602,27 @@
       var f = e.target;
       if(!f.checkValidity()){ f.reportValidity(); return; }
       var g = function(n){ return (f.elements[n].value || "").trim(); };
+      if (g("site")) return;   /* campo-isca invisível: só robô preenche */
+      var ref = mkRef("C");
       var t = "Olá! Quero um orçamento para limpeza de piscina.\n\n" +
         "Nome: " + g("nome") + "\nWhatsApp: " + g("fone") + "\nBairro: " + g("bairro") +
-        "\nTamanho: " + g("tam") + "\nSituação: " + (g("msg") || "—") + "\nRef: " + mkRef("C");
+        "\nTamanho: " + g("tam") + "\nSituação: " + (g("msg") || "—") + "\nRef: " + ref;
+      /* guarda o lead na planilha antes de abrir o WhatsApp. Se falhar ou estiver
+         desligado (LEADS_URL vazio), o WhatsApp abre do mesmo jeito. */
+      if (LEADS_URL) {
+        try {
+          fetch(LEADS_URL, {
+            method: "POST", mode: "no-cors", keepalive: true,
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+              ref: ref, nome: g("nome"), fone: g("fone"), bairro: g("bairro"),
+              tam: g("tam"), msg: g("msg"),
+              gclid: new URLSearchParams(location.search).get("gclid") || "",
+              pagina: location.href.split("#")[0]
+            })
+          });
+        } catch (err) {}
+      }
       fireConv(CONV_FORM);
       window.open("https://wa.me/" + WHATS + "?text=" + encodeURIComponent(t), "_blank", "noopener");
     });
